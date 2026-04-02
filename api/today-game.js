@@ -15,7 +15,7 @@ const TEAM_EN_TO_KO = {
   LOTTE: '롯데', DOOSAN: '두산', KIA: 'KIA', LG: 'LG', SAMSUNG: '삼성', HANWHA: '한화', NC: 'NC', SSG: 'SSG', KT: 'KT', KIWOOM: '키움'
 };
 
-const VENUE_KO = { CHANGWON:'창원', JAMSIL:'잠실', MUNHAK:'문학', DAEGU:'대구', DAEJEON:'대전', GWANGJU:'광주', GO척?':'고척', GOCH EOK:'고척', GOCH EOK SKY DOME:'고척', GOCH EOKSKYDOME:'고척', SUWON:'수원', SAJIK:'사직' };
+const VENUE_KO = { CHANGWON:'창원', JAMSIL:'잠실', MUNHAK:'문학', DAEGU:'대구', DAEJEON:'대전', GWANGJU:'광주', GOCH EOK:'고척', 'GOCH EOK SKY DOME':'고척', GOCHEOK:'고척', GOCH_EOK:'고척', SUWON:'수원', SAJIK:'사직' };
 
 function normalizeTeam(input='') {
   const raw = String(input).trim();
