@@ -6,110 +6,65 @@
   <title>Dugout Note</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body data-mode="day">
-  <main class="app-shell">
-    <section id="onboarding" class="onboarding-screen panel">
-      <div class="onboarding-copy">
-        <p class="eyebrow">DUGOUT NOTE</p>
-        <h1>닉네임과 응원 구단을 먼저 알려줘!</h1>
-        <p class="sub">응원팀을 고르면 바로 다음 화면으로 넘어가서 경기 기록과 순위를 볼 수 있어.</p>
-      </div>
-
-      <label class="field intro-field">
-        <span>닉네임</span>
-        <input id="nicknameInput" type="text" maxlength="20" placeholder="예: 야구덕후" />
-      </label>
-
+<body>
+  <div class="app">
+    <header class="header card">
       <div>
-        <div class="team-grid-title">응원 구단 선택</div>
-        <div id="teamGrid" class="team-grid"></div>
+        <p class="eyebrow">BASEBALL DIARY</p>
+        <h1>덕아웃 노트</h1>
+      </div>
+      <button id="modeToggle" class="icon-btn" aria-label="모드 전환">🌙</button>
+    </header>
+
+    <section class="team-card card">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">MY TEAM</p>
+          <h2>마이팀 설정</h2>
+        </div>
+        <div class="chip" id="teamColorChip">롯데</div>
+      </div>
+
+      <label for="teamSelect" class="label">응원 구단</label>
+      <select id="teamSelect" class="select">
+        <option value="KIA">KIA 타이거즈</option>
+        <option value="SAMSUNG">삼성 라이온즈</option>
+        <option value="LG">LG 트윈스</option>
+        <option value="DOOSAN">두산 베어스</option>
+        <option value="KT">KT 위즈</option>
+        <option value="SSG">SSG 랜더스</option>
+        <option value="LOTTE" selected>롯데 자이언츠</option>
+        <option value="HANWHA">한화 이글스</option>
+        <option value="NC">NC 다이노스</option>
+        <option value="KIWOOM">키움 히어로즈</option>
+      </select>
+    </section>
+
+    <section class="diary card">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">TODAY'S NOTE</p>
+          <h2>오늘의 기록</h2>
+        </div>
+        <button id="toggleDiary" class="soft-btn" type="button">접기</button>
+      </div>
+
+      <div id="diaryBody">
+        <p class="helper">욕이 섞여도 먼저 적고, 아래에서 순화해봐.</p>
+        <textarea id="input" placeholder="예) 오늘 경기 진짜 답답했는데 8회 수비는 좋았다..."></textarea>
+
+        <div class="button-row">
+          <button id="soften" class="primary-btn">순화하기</button>
+          <button id="clearBtn" class="soft-btn" type="button">지우기</button>
+        </div>
+
+        <div class="result-wrap">
+          <p class="label">정리된 문장</p>
+          <div id="result" class="result-box">여기에 순화된 문장이 보여.</div>
+        </div>
       </div>
     </section>
-
-    <section id="dashboard" class="dashboard-screen hidden">
-      <header class="hero panel">
-        <div>
-          <p class="eyebrow">DUGOUT NOTE</p>
-          <h1><span id="welcomeNick">팬</span>님의 <span id="welcomeTeam">마이팀</span> 덕아웃</h1>
-          <p class="sub">KBO 공식 순위 + 공식 스코어보드 + 게임센터 리뷰 기반</p>
-        </div>
-        <div class="hero-actions">
-          <button id="changeTeamBtn" class="pixel-btn ghost" type="button">시작으로</button>
-          <button id="modeToggle" class="pixel-btn ghost" type="button">나이트 모드</button>
-        </div>
-      </header>
-
-      <section class="quick-menu panel">
-        <button type="button" class="menu-chip active">덕아웃 노트 쓰기</button>
-        <button type="button" class="menu-chip">야구 일정 및 순위 확인</button>
-        <button type="button" class="menu-chip">야구 기본 룰 확인</button>
-      </section>
-
-      <section class="grid two-up">
-        <article class="panel compact-range">
-          <p class="eyebrow">RECENT RANGE</p>
-          <h2>최근 경기 범위</h2>
-          <div class="range-switch" id="rangeSwitch">
-            <button type="button" class="range-btn is-active" data-range="5">최근 5경기</button>
-            <button type="button" class="range-btn" data-range="10">최근 10경기</button>
-          </div>
-        </article>
-
-        <article class="panel selected-team-panel">
-          <p class="eyebrow">MY TEAM</p>
-          <h2>응원 구단</h2>
-          <div id="selectedTeamBadge" class="selected-team-badge"></div>
-        </article>
-      </section>
-
-      <section class="grid two-up">
-        <article class="panel">
-          <p class="eyebrow">TODAY'S BOARD</p>
-          <h2>오늘의 마이팀 경기</h2>
-          <div id="todayGame" class="empty-box">불러오는 중...</div>
-        </article>
-
-        <article class="panel">
-          <div class="panel-head">
-            <div>
-              <p class="eyebrow">RANKING</p>
-              <h2>마이팀 순위</h2>
-            </div>
-            <button type="button" class="icon-btn" id="toggleStandings" aria-expanded="false">▾</button>
-          </div>
-          <div id="myStanding" class="empty-box">불러오는 중...</div>
-          <div id="allStandings" class="standings-wrap hidden"></div>
-        </article>
-      </section>
-
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <p class="eyebrow">MATCH CALENDAR</p>
-            <h2>마이팀 최근 경기</h2>
-          </div>
-          <button type="button" class="icon-btn" id="toggleRecent" aria-expanded="true">▴</button>
-        </div>
-        <div id="recentGamesWrap">
-          <div id="recentGames" class="calendar-list">불러오는 중...</div>
-          <div id="gameDetail" class="detail-card hidden"></div>
-        </div>
-      </section>
-
-      <section class="panel">
-        <div class="panel-head">
-          <div>
-            <p class="eyebrow">GAME DIARY</p>
-            <h2>오늘의 기록</h2>
-          </div>
-          <button type="button" class="icon-btn" id="toggleDiary" aria-expanded="true">▴</button>
-        </div>
-        <div id="diaryWrap">
-          <textarea id="diaryInput" rows="7" placeholder="오늘 경기 보면서 느낀 점을 적어봐."></textarea>
-        </div>
-      </section>
-    </section>
-  </main>
+  </div>
 
   <script src="app.js"></script>
 </body>
