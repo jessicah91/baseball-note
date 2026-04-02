@@ -109,7 +109,7 @@ select:focus, input:focus, textarea:focus {
   display: grid;
   gap: 16px;
 }
-.standings-card, .diary-card { padding: 20px; }
+.standings-card, .today-card, .diary-card { padding: 20px; }
 .section-head {
   display: flex;
   justify-content: space-between;
@@ -229,4 +229,61 @@ select:focus, input:focus, textarea:focus {
 @media (min-width: 860px) {
   .grid { grid-template-columns: 0.92fr 1.08fr; }
   .hero { padding: 28px 24px; }
+}
+
+
+.today-game {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(244,247,252,0.96));
+  border: 1px solid var(--line);
+}
+.today-game.empty {
+  color: var(--muted);
+}
+.today-top {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+}
+.today-badge {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 10px;
+  border-radius:999px;
+  background: var(--team-soft);
+  color: var(--team);
+  font-size:12px;
+  font-weight:800;
+}
+.today-opponent {
+  margin-top:10px;
+  font-size:24px;
+  font-weight:800;
+}
+.today-result {
+  min-width:64px;
+  text-align:center;
+  padding:8px 10px;
+  border-radius:14px;
+  background:#eef2f8;
+  font-weight:800;
+  color: var(--text);
+}
+.today-result.win { background: rgba(22,163,74,0.12); color: #15803d; }
+.today-result.lose { background: rgba(220,38,38,0.10); color: #b91c1c; }
+.today-score {
+  font-size:16px;
+  font-weight:700;
+}
+.meta-box.light {
+  background: white;
+  border: 1px solid var(--line);
+}
+@media (min-width: 860px) {
+  .today-card { grid-column: 1 / 2; }
 }

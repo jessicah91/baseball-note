@@ -22,6 +22,58 @@ const previewBox = document.getElementById('previewBox');
 const softenBtn = document.getElementById('softenBtn');
 const previewBtn = document.getElementById('previewBtn');
 
+const todayGameCard = document.getElementById('todayGameCard');
+const todayUpdatedAt = document.getElementById('todayUpdatedAt');
+
+function renderTodayGame(game) {
+  if (!game) {
+    todayGameCard.className = 'today-game empty';
+    todayGameCard.innerHTML = '오늘은 마이팀 경기 일정이 확인되지 않았어.';
+    return;
+  }
+  const isHome = game.homeKo === currentTeam();
+  const opponent = isHome ? game.awayKo : game.homeKo;
+  const scoreText = (game.scoreAway == null || game.scoreHome == null)
+    ? `${game.time} 예정`
+    : `${game.awayKo} ${game.scoreAway} : ${game.scoreHome} ${game.homeKo}`;
+  const resultText = (game.scoreAway == null || game.scoreHome == null)
+    ? '프리뷰'
+    : ((isHome ? game.scoreHome > game.scoreAway : game.scoreAway > game.scoreHome) ? '승리' : '패배');
+  todayGameCard.className = 'today-game';
+  todayGameCard.innerHTML = `
+    <div class="today-top">
+      <div>
+        <div class="today-badge">${game.status}</div>
+        <div class="today-opponent">vs ${opponent}</div>
+      </div>
+      <div class="today-result ${resultText === '승리' ? 'win' : resultText === '패배' ? 'lose' : ''}">${resultText}</div>
+    </div>
+    <div class="today-score">${scoreText}</div>
+    <div class="today-meta">
+      <div class="meta-box light"><div class="meta-label">구장</div><div class="meta-value">${game.venue || '-'}</div></div>
+      <div class="meta-box light"><div class="meta-label">시간</div><div class="meta-value">${game.time || '-'}</div></div>
+      <div class="meta-box light"><div class="meta-label">홈/원정</div><div class="meta-value">${isHome ? '홈' : '원정'}</div></div>
+    </div>
+  `;
+}
+
+async function loadTodayGame() {
+  todayGameCard.className = 'today-game empty';
+  todayGameCard.textContent = '오늘 경기 불러오는 중...';
+  try {
+    const team = currentTeam();
+    const res = await fetch(`/api/today-game?team=${encodeURIComponent(team)}`);
+    const data = await res.json();
+    renderTodayGame(data.myTodayGame);
+    todayUpdatedAt.textContent = data.fetchedAt ? new Date(data.fetchedAt).toLocaleString('ko-KR') : '';
+    if (!data.myTodayGame && data.debug) console.warn('today debug', data.debug);
+  } catch (error) {
+    todayGameCard.className = 'today-game empty';
+    todayGameCard.textContent = '오늘 경기 정보를 불러오는 중 오류가 났어.';
+  }
+}
+
+
 function currentTeam() {
   return localStorage.getItem('dugout-my-team') || '롯데';
 }
@@ -139,10 +191,13 @@ teamSelect.addEventListener('change', () => {
   localStorage.setItem('dugout-my-team', teamSelect.value);
   applyTheme(teamSelect.value);
   loadStandings();
+loadTodayGame();
+  loadTodayGame();
 });
-refreshBtn.addEventListener('click', loadStandings);
+refreshBtn.addEventListener('click', () => { loadStandings(); loadTodayGame(); });
 previewBtn.addEventListener('click', makePreviewText);
 softenBtn.addEventListener('click', softenText);
 
 populateTeams();
 loadStandings();
+loadTodayGame();
