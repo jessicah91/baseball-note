@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dugout Note</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-mode="day">
+  <main class="app-shell">
+    <header class="hero panel">
+      <div>
+        <p class="eyebrow">DUGOUT NOTE</p>
+        <h1>마이팀 경기와 기록을 한 번에</h1>
+        <p class="sub">KBO 공식 순위 + 공식 스코어보드 + 게임센터 리뷰 기반</p>
+      </div>
+      <button id="modeToggle" class="pixel-btn ghost" type="button">나이트 모드</button>
+    </header>
+
+    <section class="grid two-up">
+      <article class="panel">
+        <p class="eyebrow">MY TEAM</p>
+        <h2>마이팀 설정</h2>
+        <label class="field">
+          <span>응원 구단</span>
+          <select id="teamSelect"></select>
+        </label>
+      </article>
+
+      <article class="panel compact-range">
+        <p class="eyebrow">RECENT RANGE</p>
+        <h2>최근 경기 범위</h2>
+        <div class="range-switch" id="rangeSwitch">
+          <button type="button" class="range-btn is-active" data-range="5">최근 5경기</button>
+          <button type="button" class="range-btn" data-range="10">최근 10경기</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid two-up">
+      <article class="panel">
+        <p class="eyebrow">TODAY'S BOARD</p>
+        <h2>오늘의 마이팀 경기</h2>
+        <div id="todayGame" class="empty-box">불러오는 중...</div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">RANKING</p>
+            <h2>마이팀 순위</h2>
+          </div>
+          <button type="button" class="icon-btn" id="toggleStandings" aria-expanded="false">▾</button>
+        </div>
+        <div id="myStanding" class="empty-box">불러오는 중...</div>
+        <div id="allStandings" class="standings-wrap hidden"></div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">MATCH CALENDAR</p>
+          <h2>마이팀 최근 경기</h2>
+        </div>
+        <button type="button" class="icon-btn" id="toggleRecent" aria-expanded="true">▴</button>
+      </div>
+      <div id="recentGamesWrap">
+        <div id="recentGames" class="calendar-list">불러오는 중...</div>
+        <div id="gameDetail" class="detail-card hidden"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">GAME DIARY</p>
+          <h2>오늘의 기록</h2>
+        </div>
+        <button type="button" class="icon-btn" id="toggleDiary" aria-expanded="true">▴</button>
+      </div>
+      <div id="diaryWrap">
+        <textarea id="diaryInput" rows="7" placeholder="오늘 경기 보면서 느낀 점을 적어봐."></textarea>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
