@@ -7,55 +7,84 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <button id="globalModeToggle" class="floating-mode-btn" aria-label="모드 전환">🌙</button>
-
   <div id="app" class="app">
     <section id="page-home" class="page active">
-      <div class="hero card">
+      <div class="hero card onboarding-card">
         <div class="hero-top">
           <div>
             <p class="eyebrow">BASEBALL DIARY</p>
             <h1>덕아웃 노트</h1>
-            <p class="sub">욕만 하고 지나가는 경기 대신, 내 팀의 하루를 기록하는 야구 다이어리.</p>
+            <p class="sub">닉네임과 응원 구단을 정하면, 바로 내 팀 전용 화면으로 넘어가.</p>
           </div>
+          
         </div>
 
         <div class="team-picker card inset">
           <div class="section-head">
             <div>
-              <p class="eyebrow">MY TEAM</p>
-              <h2>응원 구단 선택</h2>
+              <p class="eyebrow">START</p>
+              <h2>먼저 설정해줘</h2>
             </div>
-            <div id="homeTeamLogo" class="team-logo lg">롯</div>
+            <div id="homeTeamLogo" class="team-logo lg logo-frame empty">
+              <span>⚾</span>
+            </div>
           </div>
 
-          <label class="label" for="homeTeamSelect">구단</label>
-          <select id="homeTeamSelect" class="select"></select>
-          <p class="helper">응원 구단을 선택하면 일정 페이지에서 해당 팀 기준으로 실제 경기 일정을 불러와.</p>
-        </div>
+          <label class="label" for="nicknameInput">닉네임</label>
+          <input id="nicknameInput" class="input" maxlength="20" placeholder="예) 예현 / 자이언츠광팬" />
 
-        <div class="home-actions">
-          <button id="goDiary" class="menu-card primary">
-            <span class="menu-title">덕아웃 노트 쓰기</span>
-            <span class="menu-desc">템플릿 또는 자유양식으로 오늘 경기를 기록해.</span>
-          </button>
-          <button id="goSchedule" class="menu-card">
-            <span class="menu-title">야구 일정 확인</span>
-            <span class="menu-desc">MyKBO Stats 기준 실제 경기 일정을 한국어로 불러와.</span>
-          </button>
-          <button id="goRules" class="menu-card">
-            <span class="menu-title">야구 기본 룰</span>
-            <span class="menu-desc">입문자가 보기 쉬운 핵심 룰부터 정리.</span>
-          </button>
+          <div class="section-head mini-head">
+            <div>
+              <label class="label">응원 구단</label>
+              <p class="helper no-top">구단을 누르면 바로 다음 화면으로 이동해.</p>
+            </div>
+          </div>
+
+          <div id="teamGrid" class="team-grid"></div>
+          <p id="startHelper" class="helper hidden">닉네임을 먼저 입력해줘.</p>
         </div>
       </div>
     </section>
 
-    <section id="page-diary" class="page">
+    <section id="page-hub" class="page has-bottom-nav">
       <header class="topbar">
         <button class="back-btn" data-go="home">←</button>
         <div class="brand-left">
-          <div id="diaryTeamLogo" class="team-logo">롯</div>
+          <div id="hubTeamLogo" class="team-logo logo-frame"></div>
+          <div>
+            <p class="eyebrow">MY TEAM HOME</p>
+            <h2><span id="hubNickname">팬</span>님의 덕아웃</h2>
+          </div>
+        </div>
+      </header>
+
+      <section class="card welcome-card">
+        <p class="eyebrow">WELCOME</p>
+        <h3><span id="welcomeNickname">팬</span>님, 오늘도 <span id="welcomeTeamName">롯데 자이언츠</span> 가보자.</h3>
+        <p class="helper no-top">여기서 기록 쓰기, 일정·순위 확인, 기본 룰 보기를 골라서 들어가면 돼.</p>
+      </section>
+
+      <div class="home-actions hub-actions">
+        <button id="goDiary" class="menu-card primary">
+          <span class="menu-title">덕아웃 노트 쓰기</span>
+          <span class="menu-desc">템플릿 또는 자유양식으로 오늘 경기를 기록해.</span>
+        </button>
+        <button id="goSchedule" class="menu-card">
+          <span class="menu-title">야구 일정 · 순위 확인</span>
+          <span class="menu-desc">마이팀 기준으로 일정과 순위를 확인하는 공간.</span>
+        </button>
+        <button id="goRules" class="menu-card">
+          <span class="menu-title">야구 기본 룰 확인</span>
+          <span class="menu-desc">입문자가 보기 쉬운 핵심 룰만 빠르게 정리.</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="page-diary" class="page has-bottom-nav">
+      <header class="topbar">
+        <button class="back-btn" data-go="hub">←</button>
+        <div class="brand-left">
+          <div id="diaryTeamLogo" class="team-logo logo-frame"></div>
           <div>
             <p class="eyebrow">DUGOUT NOTE</p>
             <h2>오늘의 기록</h2>
@@ -66,7 +95,7 @@
       <section id="myTeamSummary" class="card myteam-summary">
         <button id="toggleSummary" class="summary-toggle" type="button">
           <div class="brand-left">
-            <div id="summaryLogo" class="team-logo sm">롯</div>
+            <div id="summaryLogo" class="team-logo sm logo-frame"></div>
             <div>
               <p class="eyebrow">MY TEAM</p>
               <strong id="summaryTeamName">롯데 자이언츠</strong>
@@ -75,7 +104,7 @@
           <span id="summaryChevron">▾</span>
         </button>
         <div id="summaryBody" class="summary-body">
-          <p class="helper">선택한 구단의 키 컬러가 전체 화면에 반영돼.</p>
+          <p class="helper">기록을 저장하면 마이페이지에서 모아서 볼 수 있어.</p>
         </div>
       </section>
 
@@ -124,9 +153,10 @@
           <textarea id="freeText" class="textarea" placeholder="오늘 경기 느낀 점을 편하게 적어봐. 거친 말이 들어가도 아래에서 순화할 수 있어."></textarea>
         </div>
 
-        <div class="button-row">
+        <div class="button-row two-row">
           <button id="makePreview" class="primary-btn">기록 미리보기</button>
           <button id="softenBtn" class="soft-btn">순화하기</button>
+          <button id="saveDiary" class="soft-btn strong-outline">기록 저장</button>
         </div>
 
         <div class="result-wrap">
@@ -139,11 +169,11 @@
       </section>
     </section>
 
-    <section id="page-schedule" class="page">
+    <section id="page-schedule" class="page has-bottom-nav">
       <header class="topbar">
-        <button class="back-btn" data-go="home">←</button>
+        <button class="back-btn" data-go="hub">←</button>
         <div class="brand-left">
-          <div id="scheduleTeamLogo" class="team-logo">롯</div>
+          <div id="scheduleTeamLogo" class="team-logo logo-frame"></div>
           <div>
             <p class="eyebrow">SCHEDULE</p>
             <h2>야구 일정</h2>
@@ -152,28 +182,24 @@
       </header>
 
       <section class="card schedule-card">
-        <div class="section-head">
+        <div class="section-head tight">
           <div>
             <p class="eyebrow">MY TEAM</p>
             <h3 id="scheduleTeamName">롯데 자이언츠</h3>
           </div>
-          <button id="refreshSchedule" class="soft-mini-btn" type="button">새로고침</button>
+          <button id="refreshSchedule" class="soft-btn small" type="button">새로고침</button>
         </div>
-
-        <div class="schedule-meta">
-          <p id="scheduleSourceText" class="helper">MyKBO Stats 기준 주간 일정을 불러와.</p>
-        </div>
-
-        <div id="scheduleLoading" class="loading-box">일정 불러오는 중…</div>
-        <div id="scheduleError" class="error-box hidden">일정을 불러오지 못했어.</div>
-        <div id="scheduleEmpty" class="empty-box hidden">표시할 일정이 없어.</div>
+        <p id="scheduleSourceText" class="helper">주간 경기 일정을 불러올 수 있어.</p>
+        <div id="scheduleLoading" class="loading-box">일정 불러오는 중...</div>
+        <div id="scheduleError" class="error-box hidden"></div>
+        <div id="scheduleEmpty" class="empty-state hidden">표시할 일정이 없어.</div>
         <div id="scheduleList" class="schedule-list"></div>
       </section>
     </section>
 
-    <section id="page-rules" class="page">
+    <section id="page-rules" class="page has-bottom-nav">
       <header class="topbar">
-        <button class="back-btn" data-go="home">←</button>
+        <button class="back-btn" data-go="hub">←</button>
         <div class="brand-left">
           <div class="team-logo neutral">⚾</div>
           <div>
@@ -202,8 +228,43 @@
         </div>
       </section>
     </section>
+
+    <section id="page-mypage" class="page has-bottom-nav">
+      <header class="topbar">
+        <button class="back-btn" data-go="hub">←</button>
+        <div class="brand-left">
+          <div id="mypageLogo" class="team-logo logo-frame"></div>
+          <div>
+            <p class="eyebrow">MY PAGE</p>
+            <h2><span id="mypageNickname">팬</span>님의 기록</h2>
+          </div>
+        </div>
+      </header>
+
+      <section class="card rules-card">
+        <div class="section-head tight">
+          <div>
+            <p class="eyebrow">ARCHIVE</p>
+            <h3>덕아웃 노트 모아보기</h3>
+          </div>
+          <button id="clearSavedNotes" class="text-btn" type="button">전체 삭제</button>
+        </div>
+        <div id="savedNotesList" class="saved-notes empty-state">
+          아직 저장된 기록이 없어. 먼저 덕아웃 노트를 작성해봐.
+        </div>
+      </section>
+    </section>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn" data-go="hub">홈</button>
+      <button class="nav-btn" data-go="diary">기록</button>
+      <button class="nav-btn" data-go="schedule">일정</button>
+      <button class="nav-btn" data-go="rules">룰</button>
+      <button class="nav-btn" data-go="mypage">마이</button>
+    </nav>
   </div>
 
+    <button id="globalModeToggle" class="floating-mode-btn" aria-label="모드 전환">🌙</button>
   <script src="app.js"></script>
 </body>
 </html>
