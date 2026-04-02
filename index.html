@@ -3,210 +3,113 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>덕아웃 노트</title>
+  <title>Dugout Note</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <div id="app" class="app">
-    <section id="page-home" class="page active">
-      <div class="hero card">
-        <div class="hero-top">
-          <div>
-            <p class="eyebrow">BASEBALL DIARY</p>
-            <h1>덕아웃 노트</h1>
-            <p class="sub">욕만 하고 지나가는 경기 대신, 내 팀의 하루를 기록하는 야구 다이어리.</p>
-          </div>
-          <button id="modeToggle" class="icon-btn" aria-label="모드 전환">🌙</button>
-        </div>
+<body data-mode="day">
+  <main class="app-shell">
+    <section id="onboarding" class="onboarding-screen panel">
+      <div class="onboarding-copy">
+        <p class="eyebrow">DUGOUT NOTE</p>
+        <h1>닉네임과 응원 구단을 먼저 알려줘!</h1>
+        <p class="sub">응원팀을 고르면 바로 다음 화면으로 넘어가서 경기 기록과 순위를 볼 수 있어.</p>
+      </div>
 
-        <div class="team-picker card inset">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">MY TEAM</p>
-              <h2>응원 구단 선택</h2>
-            </div>
-            <div id="homeTeamLogo" class="team-logo lg">롯</div>
-          </div>
+      <label class="field intro-field">
+        <span>닉네임</span>
+        <input id="nicknameInput" type="text" maxlength="20" placeholder="예: 야구덕후" />
+      </label>
 
-          <label class="label" for="homeTeamSelect">구단</label>
-          <select id="homeTeamSelect" class="select"></select>
-          <p class="helper">응원 구단을 선택하면 다음 화면 상단에 팀 로고와 키 컬러가 반영돼.</p>
-        </div>
-
-        <div class="home-actions">
-          <button id="goDiary" class="menu-card primary">
-            <span class="menu-title">덕아웃 노트 쓰기</span>
-            <span class="menu-desc">템플릿 또는 자유양식으로 오늘 경기를 기록해.</span>
-          </button>
-          <button id="goSchedule" class="menu-card">
-            <span class="menu-title">야구 일정 · 순위</span>
-            <span class="menu-desc">오늘 경기, 최근 경기, 마이팀 순위를 보는 자리.</span>
-          </button>
-          <button id="goRules" class="menu-card">
-            <span class="menu-title">야구 기본 룰</span>
-            <span class="menu-desc">입문자가 보기 쉬운 핵심 룰부터 정리.</span>
-          </button>
-        </div>
+      <div>
+        <div class="team-grid-title">응원 구단 선택</div>
+        <div id="teamGrid" class="team-grid"></div>
       </div>
     </section>
 
-    <section id="page-diary" class="page">
-      <header class="topbar">
-        <button class="back-btn" data-go="home">←</button>
-        <div class="brand-left">
-          <div id="diaryTeamLogo" class="team-logo">롯</div>
+    <section id="dashboard" class="dashboard-screen hidden">
+      <header class="hero panel">
+        <div>
+          <p class="eyebrow">DUGOUT NOTE</p>
+          <h1><span id="welcomeNick">팬</span>님의 <span id="welcomeTeam">마이팀</span> 덕아웃</h1>
+          <p class="sub">KBO 공식 순위 + 공식 스코어보드 + 게임센터 리뷰 기반</p>
+        </div>
+        <div class="hero-actions">
+          <button id="changeTeamBtn" class="pixel-btn ghost" type="button">시작으로</button>
+          <button id="modeToggle" class="pixel-btn ghost" type="button">나이트 모드</button>
+        </div>
+      </header>
+
+      <section class="quick-menu panel">
+        <button type="button" class="menu-chip active">덕아웃 노트 쓰기</button>
+        <button type="button" class="menu-chip">야구 일정 및 순위 확인</button>
+        <button type="button" class="menu-chip">야구 기본 룰 확인</button>
+      </section>
+
+      <section class="grid two-up">
+        <article class="panel compact-range">
+          <p class="eyebrow">RECENT RANGE</p>
+          <h2>최근 경기 범위</h2>
+          <div class="range-switch" id="rangeSwitch">
+            <button type="button" class="range-btn is-active" data-range="5">최근 5경기</button>
+            <button type="button" class="range-btn" data-range="10">최근 10경기</button>
+          </div>
+        </article>
+
+        <article class="panel selected-team-panel">
+          <p class="eyebrow">MY TEAM</p>
+          <h2>응원 구단</h2>
+          <div id="selectedTeamBadge" class="selected-team-badge"></div>
+        </article>
+      </section>
+
+      <section class="grid two-up">
+        <article class="panel">
+          <p class="eyebrow">TODAY'S BOARD</p>
+          <h2>오늘의 마이팀 경기</h2>
+          <div id="todayGame" class="empty-box">불러오는 중...</div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">RANKING</p>
+              <h2>마이팀 순위</h2>
+            </div>
+            <button type="button" class="icon-btn" id="toggleStandings" aria-expanded="false">▾</button>
+          </div>
+          <div id="myStanding" class="empty-box">불러오는 중...</div>
+          <div id="allStandings" class="standings-wrap hidden"></div>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
           <div>
-            <p class="eyebrow">DUGOUT NOTE</p>
+            <p class="eyebrow">MATCH CALENDAR</p>
+            <h2>마이팀 최근 경기</h2>
+          </div>
+          <button type="button" class="icon-btn" id="toggleRecent" aria-expanded="true">▴</button>
+        </div>
+        <div id="recentGamesWrap">
+          <div id="recentGames" class="calendar-list">불러오는 중...</div>
+          <div id="gameDetail" class="detail-card hidden"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">GAME DIARY</p>
             <h2>오늘의 기록</h2>
           </div>
+          <button type="button" class="icon-btn" id="toggleDiary" aria-expanded="true">▴</button>
         </div>
-      </header>
-
-      <section id="myTeamSummary" class="card myteam-summary">
-        <button id="toggleSummary" class="summary-toggle" type="button">
-          <div class="brand-left">
-            <div id="summaryLogo" class="team-logo sm">롯</div>
-            <div>
-              <p class="eyebrow">MY TEAM</p>
-              <strong id="summaryTeamName">롯데 자이언츠</strong>
-            </div>
-          </div>
-          <span id="summaryChevron">▾</span>
-        </button>
-        <div id="summaryBody" class="summary-body">
-          <p class="helper">선택한 구단의 키 컬러가 전체 화면에 반영돼. 나중에 여기 마이팀 경기·순위를 붙이기 좋게 만들어둔 영역이야.</p>
-        </div>
-      </section>
-
-      <section class="card diary-card">
-        <div class="section-head tight">
-          <div>
-            <p class="eyebrow">WRITE MODE</p>
-            <h3>기록 방식 선택</h3>
-          </div>
-          <div class="segmented" id="writeMode">
-            <button class="seg-btn active" data-mode="template" type="button">템플릿</button>
-            <button class="seg-btn" data-mode="free" type="button">자유양식</button>
-          </div>
-        </div>
-
-        <div id="templateForm" class="template-form">
-          <div class="grid2">
-            <div>
-              <label class="label">오늘 경기 한줄 요약</label>
-              <input id="f_summary" class="input" placeholder="예) 8회 흐름을 못 잡아서 아쉬웠다" />
-            </div>
-            <div>
-              <label class="label">오늘의 감정</label>
-              <select id="f_emotion" class="select">
-                <option>아쉬움</option>
-                <option>답답함</option>
-                <option>재밌었음</option>
-                <option>희망 봄</option>
-                <option>터졌다</option>
-              </select>
-            </div>
-          </div>
-
-          <label class="label">좋았던 장면</label>
-          <textarea id="f_good" class="textarea sm" placeholder="예) 6회 수비 집중력이 좋았다"></textarea>
-
-          <label class="label">아쉬웠던 장면</label>
-          <textarea id="f_bad" class="textarea sm" placeholder="예) 찬스를 살리지 못한 타석이 컸다"></textarea>
-
-          <label class="label">다음 경기에서 보고 싶은 점</label>
-          <textarea id="f_next" class="textarea sm" placeholder="예) 불펜 운영과 주루 집중력"></textarea>
-        </div>
-
-        <div id="freeForm" class="free-form hidden">
-          <label class="label">자유 기록</label>
-          <textarea id="freeText" class="textarea" placeholder="오늘 경기 느낀 점을 편하게 적어봐. 거친 말이 들어가도 아래에서 순화할 수 있어."></textarea>
-        </div>
-
-        <div class="button-row">
-          <button id="makePreview" class="primary-btn">기록 미리보기</button>
-          <button id="softenBtn" class="soft-btn">순화하기</button>
-        </div>
-
-        <div class="result-wrap">
-          <div class="result-head">
-            <p class="label">미리보기</p>
-            <button id="clearDiary" class="text-btn" type="button">초기화</button>
-          </div>
-          <div id="previewBox" class="result-box">여기에 정리된 기록이 보여.</div>
+        <div id="diaryWrap">
+          <textarea id="diaryInput" rows="7" placeholder="오늘 경기 보면서 느낀 점을 적어봐."></textarea>
         </div>
       </section>
     </section>
-
-    <section id="page-schedule" class="page">
-      <header class="topbar">
-        <button class="back-btn" data-go="home">←</button>
-        <div class="brand-left">
-          <div id="scheduleTeamLogo" class="team-logo">롯</div>
-          <div>
-            <p class="eyebrow">SCHEDULE & STANDINGS</p>
-            <h2>야구 일정 · 순위</h2>
-          </div>
-        </div>
-      </header>
-
-      <section class="card schedule-card">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">MY TEAM</p>
-            <h3 id="scheduleTeamName">롯데 자이언츠</h3>
-          </div>
-          <div class="chip">준비중</div>
-        </div>
-        <div class="placeholder-list">
-          <div class="placeholder-row">
-            <span>오늘 경기</span>
-            <strong>데이터 연결 예정</strong>
-          </div>
-          <div class="placeholder-row">
-            <span>최근 경기</span>
-            <strong>5 / 10경기 전환 예정</strong>
-          </div>
-          <div class="placeholder-row">
-            <span>마이팀 순위</span>
-            <strong>연결 가능한 영역 유지</strong>
-          </div>
-        </div>
-      </section>
-    </section>
-
-    <section id="page-rules" class="page">
-      <header class="topbar">
-        <button class="back-btn" data-go="home">←</button>
-        <div class="brand-left">
-          <div class="team-logo neutral">⚾</div>
-          <div>
-            <p class="eyebrow">BASEBALL RULES</p>
-            <h2>야구 기본 룰</h2>
-          </div>
-        </div>
-      </header>
-
-      <section class="card rules-card">
-        <div class="rule-item">
-          <h3>페어 / 파울</h3>
-          <p>타구가 1루선과 3루선 안쪽으로 굴러가거나, 그 선 안쪽에 떨어지면 페어볼이야.</p>
-        </div>
-        <div class="rule-item">
-          <h3>아웃 카운트</h3>
-          <p>한 이닝 공격에서 아웃 3개가 나오면 공수 교대가 돼.</p>
-        </div>
-        <div class="rule-item">
-          <h3>승리투수 / 패전투수</h3>
-          <p>경기 흐름상 리드를 만든 뒤 자격을 충족한 투수가 승리투수, 결승 실점을 허용한 쪽이 패전투수로 기록돼.</p>
-        </div>
-        <div class="rule-item">
-          <h3>세이브 / 홀드</h3>
-          <p>리드를 지켜 경기를 끝내면 세이브, 리드를 유지한 채 다음 투수에게 넘기면 홀드가 기록될 수 있어.</p>
-        </div>
-      </section>
-    </section>
-  </div>
+  </main>
 
   <script src="app.js"></script>
 </body>
