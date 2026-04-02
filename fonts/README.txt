@@ -1,4 +1,2 @@
-이 폴더에는 아래 KBO 폰트 파일이 있어야 합니다.
-- KBO Dia Gothic_bold.ttf
-- KBO Dia Gothic_medium.ttf
-- KBO Dia Gothic_light.ttf
+현재 버전은 Pretendard CDN을 기본 사용합니다.
+직접 폰트를 넣고 싶으면 이 폴더에 폰트 파일을 넣은 뒤 styles.css의 @font-face를 수정하세요.
