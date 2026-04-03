@@ -1,44 +1,43 @@
 const TEAM_META = {
-  KT: { label: "KT 위즈", short: "KT", color: "#111111", strong: "#000000", logo: "logos/kt.png", english: "KT Wiz" },
-  SSG: { label: "SSG 랜더스", short: "SSG", color: "#CE0E2D", strong: "#96091F", logo: "logos/ssg.png", english: "SSG Landers" },
-  NC: { label: "NC 다이노스", short: "NC", color: "#315288", strong: "#223A61", logo: "logos/nc.png", english: "NC Dinos" },
-  HANWHA: { label: "한화 이글스", short: "한화", color: "#F37321", strong: "#C85A13", logo: "logos/hanwha.png", english: "Hanwha Eagles" },
-  LOTTE: { label: "롯데 자이언츠", short: "롯데", color: "#0E2E63", strong: "#091F43", logo: "logos/lotte.png", english: "Lotte Giants" },
-  SAMSUNG: { label: "삼성 라이온즈", short: "삼성", color: "#0066B3", strong: "#004C86", logo: "logos/samsung.png", english: "Samsung Lions" },
-  DOOSAN: { label: "두산 베어스", short: "두산", color: "#131230", strong: "#0B0A1D", logo: "logos/doosan.png", english: "Doosan Bears" },
-  LG: { label: "LG 트윈스", short: "LG", color: "#C30452", strong: "#91033E", logo: "logos/lg.png", english: "LG Twins" },
-  KIA: { label: "KIA 타이거즈", short: "KIA", color: "#EA0029", strong: "#B90024", logo: "logos/kia.png", english: "Kia Tigers" },
-  KIWOOM: { label: "키움 히어로즈", short: "키움", color: "#570514", strong: "#3B030E", logo: "logos/kiwoom.png", english: "Kiwoom Heroes" }
+  KIA: { label: "KIA 타이거즈", short: "KIA", logo: "K", color: "#EA0029", strong: "#B90024", aliases: ["KIA", "기아"] },
+  SAMSUNG: { label: "삼성 라이온즈", short: "삼성", logo: "삼", color: "#0066B3", strong: "#004C86", aliases: ["삼성"] },
+  LG: { label: "LG 트윈스", short: "LG", logo: "L", color: "#C30452", strong: "#91033E", aliases: ["LG"] },
+  DOOSAN: { label: "두산 베어스", short: "두산", logo: "두", color: "#131230", strong: "#0B0A1D", aliases: ["두산"] },
+  KT: { label: "KT 위즈", short: "KT", logo: "KT", color: "#111111", strong: "#000000", aliases: ["KT", "kt"] },
+  SSG: { label: "SSG 랜더스", short: "SSG", logo: "SSG", color: "#CE0E2D", strong: "#96091F", aliases: ["SSG"] },
+  LOTTE: { label: "롯데 자이언츠", short: "롯데", logo: "롯", color: "#0E2E63", strong: "#091F43", aliases: ["롯데"] },
+  HANWHA: { label: "한화 이글스", short: "한화", logo: "한", color: "#F37321", strong: "#C85A13", aliases: ["한화"] },
+  NC: { label: "NC 다이노스", short: "NC", logo: "NC", color: "#315288", strong: "#223A61", aliases: ["NC", "nc"] },
+  KIWOOM: { label: "키움 히어로즈", short: "키움", logo: "키", color: "#570514", strong: "#3B030E", aliases: ["키움"] }
 };
 
+const homeTeamSelect = document.getElementById("homeTeamSelect");
 const nicknameInput = document.getElementById("nicknameInput");
-const teamGrid = document.getElementById("teamGrid");
-const startHelper = document.getElementById("startHelper");
-const modeToggle = document.getElementById("globalModeToggle");
-const pageEls = document.querySelectorAll(".page");
-const navButtons = document.querySelectorAll(".nav-btn");
-
-const logoTargets = [
-  document.getElementById("homeTeamLogo"),
-  document.getElementById("hubTeamLogo"),
-  document.getElementById("diaryTeamLogo"),
-  document.getElementById("scheduleTeamLogo"),
-  document.getElementById("summaryLogo"),
-  document.getElementById("mypageLogo")
-].filter(Boolean);
-
+const nicknameText = document.getElementById("nicknameText");
+const nicknameArchive = document.getElementById("nicknameArchive");
+const globalModeToggle = document.getElementById("globalModeToggle");
+const homeTeamLogo = document.getElementById("homeTeamLogo");
+const hubTeamLogo = document.getElementById("hubTeamLogo");
+const diaryTeamLogo = document.getElementById("diaryTeamLogo");
+const summaryLogo = document.getElementById("summaryLogo");
+const standingsTeamLogo = document.getElementById("standingsTeamLogo");
+const mypageTeamLogo = document.getElementById("mypageTeamLogo");
 const summaryTeamName = document.getElementById("summaryTeamName");
-const scheduleTeamName = document.getElementById("scheduleTeamName");
-const hubNickname = document.getElementById("hubNickname");
-const welcomeNickname = document.getElementById("welcomeNickname");
-const mypageNickname = document.getElementById("mypageNickname");
-const welcomeTeamName = document.getElementById("welcomeTeamName");
-const scheduleList = document.getElementById("scheduleList");
-const scheduleLoading = document.getElementById("scheduleLoading");
-const scheduleError = document.getElementById("scheduleError");
-const scheduleEmpty = document.getElementById("scheduleEmpty");
-const scheduleSourceText = document.getElementById("scheduleSourceText");
-const refreshScheduleBtn = document.getElementById("refreshSchedule");
+const standingsHeadline = document.getElementById("standingsHeadline");
+const standingsMeta = document.getElementById("standingsMeta");
+const standingsStatus = document.getElementById("standingsStatus");
+const standingsTableWrap = document.getElementById("standingsTableWrap");
+const standingsTableBody = document.getElementById("standingsTableBody");
+const savedNotesList = document.getElementById("savedNotesList");
+
+function populateTeams() {
+  Object.entries(TEAM_META).forEach(([key, meta]) => {
+    const option = document.createElement("option");
+    option.value = key;
+    option.textContent = meta.label;
+    homeTeamSelect.appendChild(option);
+  });
+}
 
 function hexToRgba(hex, alpha) {
   const c = hex.replace("#", "");
@@ -49,91 +48,35 @@ function hexToRgba(hex, alpha) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
-function setLogo(el, src, alt) {
-  if (!el) return;
-  el.classList.remove("empty");
-  el.innerHTML = `<img src="${src}" alt="${alt}" />`;
-}
-
-function renderTeamChoices() {
-  teamGrid.innerHTML = "";
-  Object.entries(TEAM_META).forEach(([key, meta]) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "team-choice";
-    button.dataset.team = key;
-    button.innerHTML = `
-      <img class="logo-thumb" src="${meta.logo}" alt="${meta.label}" />
-      <span>${meta.short}</span>
-    `;
-    button.addEventListener("click", () => selectTeam(key));
-    teamGrid.appendChild(button);
-  });
-}
-
-function updateSelectedTeamButton(teamKey) {
-  document.querySelectorAll(".team-choice").forEach(btn => {
-    btn.classList.toggle("selected", btn.dataset.team === teamKey);
-  });
-}
-
 function applyTeam(teamKey) {
   const meta = TEAM_META[teamKey] || TEAM_META.LOTTE;
   document.documentElement.style.setProperty("--accent", meta.color);
   document.documentElement.style.setProperty("--accent-strong", meta.strong);
   document.documentElement.style.setProperty("--accent-soft", hexToRgba(meta.color, 0.12));
-  logoTargets.forEach(el => setLogo(el, meta.logo, meta.label));
-  if (summaryTeamName) summaryTeamName.textContent = meta.label;
-  if (scheduleTeamName) scheduleTeamName.textContent = meta.label;
-  if (welcomeTeamName) welcomeTeamName.textContent = meta.label;
-  localStorage.setItem("dugout-team", teamKey);
-  updateSelectedTeamButton(teamKey);
-}
 
-function applyNickname(name) {
-  const nickname = (name || "팬").trim() || "팬";
-  [hubNickname, welcomeNickname, mypageNickname].forEach(el => {
-    if (el) el.textContent = nickname;
+  [homeTeamLogo, hubTeamLogo, diaryTeamLogo, summaryLogo, standingsTeamLogo, mypageTeamLogo].forEach((el) => {
+    if (el) el.textContent = meta.logo;
   });
-  localStorage.setItem("dugout-nickname", nickname);
+
+  summaryTeamName.textContent = meta.label;
+  localStorage.setItem("dugout-team", teamKey);
 }
 
 function showPage(id) {
-  pageEls.forEach(p => p.classList.remove("active"));
-  document.getElementById(`page-${id}`)?.classList.add("active");
-  navButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.go === id));
-  if (id === "mypage") renderSavedNotes();
-  if (id === "schedule") loadSchedule();
+  document.querySelectorAll(".page").forEach((p) => p.classList.remove("active"));
+  document.getElementById(`page-${id}`).classList.add("active");
   window.scrollTo({ top: 0, behavior: "smooth" });
+  if (id === "standings") loadStandings();
+  if (id === "mypage") renderSavedNotes();
 }
 
-function maybeAdvanceFromStart() {
-  const nickname = nicknameInput.value.trim();
-  const teamKey = localStorage.getItem("dugout-team");
-  if (nickname && teamKey) {
-    applyNickname(nickname);
-    startHelper.classList.add("hidden");
-    showPage("hub");
-  }
-}
-
-function selectTeam(teamKey) {
-  applyTeam(teamKey);
-  if (!nicknameInput.value.trim()) {
-    startHelper.classList.remove("hidden");
-    nicknameInput.focus();
-    return;
-  }
-  maybeAdvanceFromStart();
+function getActiveWriteMode() {
+  return document.querySelector(".seg-btn.active")?.dataset.mode || "template";
 }
 
 function value(id) {
   const el = document.getElementById(id);
   return (el?.value || "").trim();
-}
-
-function getActiveWriteMode() {
-  return document.querySelector(".seg-btn.active")?.dataset.mode || "template";
 }
 
 function buildTemplatePreview() {
@@ -172,77 +115,28 @@ function currentRawText() {
   return value("freeText");
 }
 
-
-function setDarkMode(enabled) {
-  document.body.classList.toggle("dark", enabled);
-  if (modeToggle) modeToggle.textContent = enabled ? "☀️" : "🌙";
-  localStorage.setItem("dugout-dark", enabled ? "1" : "0");
+function setNickname(name) {
+  const safeName = (name || "팬").trim() || "팬";
+  nicknameText.textContent = safeName;
+  nicknameArchive.textContent = safeName;
+  localStorage.setItem("dugout-nickname", safeName);
 }
 
-function escapeHtml(text) {
-  return String(text)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-function renderSchedule(items) {
-  if (!scheduleList) return;
-  scheduleList.innerHTML = "";
-  items.forEach(group => {
-    const section = document.createElement("section");
-    section.className = "schedule-day-group";
-    section.innerHTML = `
-      <h4 class="schedule-day-title">${escapeHtml(group.dateLabel)}</h4>
-      <div class="schedule-day-list">
-        ${group.games.map(game => `
-          <article class="schedule-game-row">
-            <div class="schedule-row-top">
-              <span class="schedule-status">${escapeHtml(game.statusKo || "경기 예정")}</span>
-              <span class="schedule-venue">${escapeHtml(game.venueKo || "장소 미정")}</span>
-            </div>
-            <div class="schedule-matchup">
-              <strong>${escapeHtml(game.awayKo)}</strong>
-              <span class="versus">vs</span>
-              <strong>${escapeHtml(game.homeKo)}</strong>
-            </div>
-          </article>`).join("")}
-      </div>`;
-    scheduleList.appendChild(section);
-  });
-}
-
-async function loadSchedule() {
-  if (!scheduleList) return;
-  const teamKey = localStorage.getItem("dugout-team") || "LOTTE";
-  const team = TEAM_META[teamKey] || TEAM_META.LOTTE;
-  scheduleLoading.classList.remove("hidden");
-  scheduleError.classList.add("hidden");
-  scheduleEmpty.classList.add("hidden");
-  scheduleList.innerHTML = "";
-  scheduleSourceText.textContent = `${team.label} 주간 일정 불러오는 중...`;
-
-  try {
-    const response = await fetch(`/api/mykbostats-schedule?team=${encodeURIComponent(team.english)}`);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = await response.json();
-    const items = data && Array.isArray(data.schedule) ? data.schedule : [];
-    if (!items.length) {
-      scheduleEmpty.classList.remove("hidden");
-      scheduleSourceText.textContent = `${team.label} 일정이 아직 없거나 가져오지 못했어.`;
-      return;
-    }
-    renderSchedule(items);
-    scheduleSourceText.textContent = `${team.label} 기준 주간 일정 · 출처 MyKBO Stats(비공식)`;
-  } catch (error) {
-    scheduleError.classList.remove("hidden");
-    scheduleError.textContent = `일정을 불러오지 못했어. ${error.message}`;
-    scheduleSourceText.textContent = `api 폴더까지 같이 배포됐는지 확인해줘.`;
-  } finally {
-    scheduleLoading.classList.add("hidden");
+function goAfterTeamSelect() {
+  const nickname = nicknameInput.value.trim();
+  if (!nickname) {
+    nicknameInput.focus();
+    nicknameInput.placeholder = "닉네임 먼저 입력해줘";
+    return;
   }
+  setNickname(nickname);
+  showPage("hub");
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+  globalModeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+  localStorage.setItem("dugout-dark", document.body.classList.contains("dark") ? "1" : "0");
 }
 
 function getSavedNotes() {
@@ -257,75 +151,119 @@ function saveNotes(notes) {
   localStorage.setItem("dugout-notes", JSON.stringify(notes));
 }
 
+function saveCurrentDiary() {
+  const text = currentRawText();
+  const preview = text || "내용 없음";
+  const teamKey = localStorage.getItem("dugout-team") || "LOTTE";
+  const notes = getSavedNotes();
+  notes.unshift({
+    id: Date.now(),
+    teamKey,
+    teamLabel: TEAM_META[teamKey].label,
+    text: preview,
+    createdAt: new Date().toLocaleString("ko-KR")
+  });
+  saveNotes(notes.slice(0, 50));
+  renderSavedNotes();
+  alert("덕아웃 노트를 저장했어!");
+}
+
 function renderSavedNotes() {
-  const container = document.getElementById("savedNotesList");
-  if (!container) return;
   const notes = getSavedNotes();
   if (!notes.length) {
-    container.className = "saved-notes empty-state";
-    container.textContent = "아직 저장된 기록이 없어. 먼저 덕아웃 노트를 작성해봐.";
+    savedNotesList.innerHTML = '<div class="notice-card">아직 저장한 기록이 없어.</div>';
     return;
   }
 
-  container.className = "saved-notes";
-  container.innerHTML = notes.map((note, index) => `
-    <article class="saved-note">
+  savedNotesList.innerHTML = notes.map((note) => `
+    <article class="saved-note card inset">
       <div class="saved-note-head">
         <strong>${note.teamLabel}</strong>
-        <div class="saved-meta">${note.nickname} · ${note.date}</div>
+        <button class="text-btn" type="button" onclick="deleteSavedNote(${note.id})">삭제</button>
       </div>
-      <p>${note.text}</p>
-      <div class="saved-note-head">
-        <span class="saved-meta">${note.mode === "template" ? "템플릿" : "자유양식"}</span>
-        <button class="text-btn" type="button" onclick="deleteSavedNote(${index})">삭제</button>
-      </div>
+      <p class="saved-note-date">${note.createdAt}</p>
+      <p class="saved-note-text">${escapeHtml(note.text)}</p>
     </article>
   `).join("");
 }
 
-window.deleteSavedNote = function(index) {
-  const notes = getSavedNotes();
-  notes.splice(index, 1);
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+window.deleteSavedNote = function deleteSavedNote(id) {
+  const notes = getSavedNotes().filter((note) => note.id !== id);
   saveNotes(notes);
   renderSavedNotes();
 };
 
-function saveCurrentDiary() {
-  const text = document.getElementById("previewBox").textContent.trim();
-  if (!text || text === "여기에 정리된 기록이 보여." || text === "먼저 기록을 적어줘.") {
-    alert("먼저 기록 미리보기를 만들어줘.");
-    return;
-  }
+function getMyTeamAliases() {
   const teamKey = localStorage.getItem("dugout-team") || "LOTTE";
-  const meta = TEAM_META[teamKey];
-  const notes = getSavedNotes();
-  notes.unshift({
-    nickname: localStorage.getItem("dugout-nickname") || "팬",
-    teamKey,
-    teamLabel: meta.label,
-    text,
-    mode: getActiveWriteMode(),
-    date: new Date().toLocaleDateString("ko-KR")
-  });
-  saveNotes(notes);
-  renderSavedNotes();
-  showPage("mypage");
+  return TEAM_META[teamKey]?.aliases || [];
 }
 
-document.getElementById("goDiary").addEventListener("click", () => showPage("diary"));
-document.getElementById("goSchedule").addEventListener("click", () => showPage("schedule"));
-document.getElementById("goRules").addEventListener("click", () => showPage("rules"));
-document.querySelectorAll("[data-go]").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const target = btn.dataset.go;
-    if (target !== "home" && !localStorage.getItem("dugout-team")) {
-      showPage("home");
-      return;
-    }
-    if (target === "mypage") renderSavedNotes();
-    showPage(target);
-  });
+function renderStandingsTable(rows) {
+  const aliases = getMyTeamAliases();
+  standingsTableBody.innerHTML = rows.map((row) => {
+    const isMine = aliases.includes(row.team);
+    return `
+      <tr class="${isMine ? "is-mine" : ""}">
+        <td>${row.rank}</td>
+        <td class="team-cell">${row.team}${isMine ? ' <span class="mine-badge">MY</span>' : ""}</td>
+        <td>${row.games}</td>
+        <td>${row.win}</td>
+        <td>${row.lose}</td>
+        <td>${row.draw}</td>
+        <td>${row.pct}</td>
+        <td>${row.gb}</td>
+      </tr>
+    `;
+  }).join("");
+}
+
+async function loadStandings() {
+  standingsStatus.textContent = "순위표를 불러오는 중이야…";
+  standingsStatus.classList.remove("error");
+  standingsTableWrap.classList.add("hidden");
+
+  try {
+    const response = await fetch(`/api/kbo-standings?ts=${Date.now()}`);
+    if (!response.ok) throw new Error("순위 응답 실패");
+    const data = await response.json();
+    if (!data.rows?.length) throw new Error("순위 데이터 없음");
+
+    standingsHeadline.textContent = `${data.date || "오늘"} 기준 KBO 순위`;
+    standingsMeta.textContent = `${data.subtitle || "공식 KBO 일자별 팀 순위"}`;
+    standingsStatus.textContent = "불러오기 완료";
+    renderStandingsTable(data.rows);
+    standingsTableWrap.classList.remove("hidden");
+  } catch (error) {
+    standingsStatus.textContent = "공식 순위표를 불러오지 못했어. Vercel에 api 폴더까지 같이 배포됐는지 확인해줘.";
+    standingsStatus.classList.add("error");
+  }
+}
+
+// Navigation and events
+homeTeamSelect.addEventListener("change", (e) => {
+  applyTeam(e.target.value);
+  goAfterTeamSelect();
 });
+
+nicknameInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") goAfterTeamSelect();
+});
+
+document.getElementById("goDiary").addEventListener("click", () => showPage("diary"));
+document.getElementById("goStandings").addEventListener("click", () => showPage("standings"));
+document.getElementById("goRules").addEventListener("click", () => showPage("rules"));
+document.getElementById("goMyPage").addEventListener("click", () => showPage("mypage"));
+document.querySelectorAll("[data-go='home']").forEach((btn) => btn.addEventListener("click", () => showPage("home")));
+document.querySelectorAll("[data-go='hub']").forEach((btn) => btn.addEventListener("click", () => showPage("hub")));
 
 document.getElementById("toggleSummary").addEventListener("click", () => {
   const body = document.getElementById("summaryBody");
@@ -335,9 +273,9 @@ document.getElementById("toggleSummary").addEventListener("click", () => {
   chevron.textContent = hidden ? "▾" : "▸";
 });
 
-document.querySelectorAll(".seg-btn").forEach(btn => {
+document.querySelectorAll(".seg-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
-    document.querySelectorAll(".seg-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".seg-btn").forEach((b) => b.classList.remove("active"));
     btn.classList.add("active");
     const mode = btn.dataset.mode;
     document.getElementById("templateForm").classList.toggle("hidden", mode !== "template");
@@ -356,7 +294,7 @@ document.getElementById("softenBtn").addEventListener("click", () => {
 });
 
 document.getElementById("clearDiary").addEventListener("click", () => {
-  ["f_summary","f_emotion","f_good","f_bad","f_next","freeText"].forEach(id => {
+  ["f_summary", "f_emotion", "f_good", "f_bad", "f_next", "freeText"].forEach((id) => {
     const el = document.getElementById(id);
     if (el && el.tagName === "SELECT") el.selectedIndex = 0;
     else if (el) el.value = "";
@@ -369,28 +307,21 @@ document.getElementById("clearSavedNotes").addEventListener("click", () => {
   localStorage.removeItem("dugout-notes");
   renderSavedNotes();
 });
+document.getElementById("refreshStandings").addEventListener("click", loadStandings);
+globalModeToggle.addEventListener("click", toggleDarkMode);
 
-modeToggle?.addEventListener("click", () => {
-  setDarkMode(!document.body.classList.contains("dark"));
-});
-
-refreshScheduleBtn?.addEventListener("click", loadSchedule);
-
-nicknameInput.addEventListener("input", () => {
-  const trimmed = nicknameInput.value.trim();
-  if (trimmed) {
-    startHelper.classList.add("hidden");
-    applyNickname(trimmed);
-    maybeAdvanceFromStart();
-  }
-});
-
-renderTeamChoices();
+populateTeams();
 const savedTeam = localStorage.getItem("dugout-team") || "LOTTE";
-const savedNickname = localStorage.getItem("dugout-nickname") || "";
-if (savedNickname) nicknameInput.value = savedNickname;
+homeTeamSelect.value = savedTeam;
 applyTeam(savedTeam);
-applyNickname(savedNickname || "팬");
-renderSavedNotes();
 
-setDarkMode(localStorage.getItem("dugout-dark") === "1");
+const savedNickname = localStorage.getItem("dugout-nickname") || "팬";
+nicknameInput.value = savedNickname === "팬" ? "" : savedNickname;
+setNickname(savedNickname);
+
+if (localStorage.getItem("dugout-dark") === "1") {
+  document.body.classList.add("dark");
+  globalModeToggle.textContent = "☀️";
+}
+
+renderSavedNotes();
