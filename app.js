@@ -1,15 +1,94 @@
 const TEAM_META = {
-  KT: { label: "KT 위즈", color: "#111111", strong: "#000000", logo: "logos/kt.png" },
-  SSG: { label: "SSG 랜더스", color: "#CE0E2D", strong: "#96091F", logo: "logos/ssg.png" },
-  NC: { label: "NC 다이노스", color: "#315288", strong: "#223A61", logo: "logos/nc.png" },
-  HANWHA: { label: "한화 이글스", color: "#F37321", strong: "#C85A13", logo: "logos/hanwha.png" },
-  LOTTE: { label: "롯데 자이언츠", color: "#041E42", strong: "#091F43", logo: "logos/lotte.png" },
-  SAMSUNG: { label: "삼성 라이온즈", color: "#0066B3", strong: "#004C86", logo: "logos/samsung.png" },
-  DOOSAN: { label: "두산 베어스", color: "#131230", strong: "#0B0A1D", logo: "logos/doosan.png" },
-  LG: { label: "LG 트윈스", color: "#C30452", strong: "#91033E", logo: "logos/lg.png" },
-  KIA: { label: "KIA 타이거즈", color: "#EA0029", strong: "#B90024", logo: "logos/kia.png" },
-  KIWOOM: { label: "키움 히어로즈", color: "#570514", strong: "#3B030E", logo: "logos/kiwoom.png" }
+  KT: { label: "KT 위즈", color: "#111111", strong: "#000000", logo: "logos/kt.png", kbo: "KT" },
+  SSG: { label: "SSG 랜더스", color: "#CE0E2D", strong: "#96091F", logo: "logos/ssg.png", kbo: "SSG" },
+  NC: { label: "NC 다이노스", color: "#315288", strong: "#223A61", logo: "logos/nc.png", kbo: "NC" },
+  HANWHA: { label: "한화 이글스", color: "#F37321", strong: "#C85A13", logo: "logos/hanwha.png", kbo: "한화" },
+  LOTTE: { label: "롯데 자이언츠", color: "#041E42", strong: "#091F43", logo: "logos/lotte.png", kbo: "롯데" },
+  SAMSUNG: { label: "삼성 라이온즈", color: "#0066B3", strong: "#004C86", logo: "logos/samsung.png", kbo: "삼성" },
+  DOOSAN: { label: "두산 베어스", color: "#131230", strong: "#0B0A1D", logo: "logos/doosan.png", kbo: "두산" },
+  LG: { label: "LG 트윈스", color: "#C30452", strong: "#91033E", logo: "logos/lg.png", kbo: "LG" },
+  KIA: { label: "KIA 타이거즈", color: "#EA0029", strong: "#B90024", logo: "logos/kia.png", kbo: "KIA" },
+  KIWOOM: { label: "키움 히어로즈", color: "#570514", strong: "#3B030E", logo: "logos/kiwoom.png", kbo: "키움" }
 };
+
+const RULES = [
+  {
+    id: 'single',
+    title: '1루타',
+    badge: '주루',
+    summary: '타자가 안전하게 1루까지 진루하면 1루타야.',
+    detail: '타구가 페어 지역에 떨어진 뒤 수비보다 먼저 1루에 도착하면 1루타로 기록돼. 아래 점이 홈에서 1루까지 뛰는 모습을 보여줘.',
+    type: 'run',
+    bases: 1
+  },
+  {
+    id: 'double',
+    title: '2루타',
+    badge: '주루',
+    summary: '타자가 한 번에 2루까지 가면 2루타야.',
+    detail: '장타가 외야 쪽으로 빠지고 수비가 처리하기 전에 타자가 2루까지 안전하게 들어오면 2루타가 돼.',
+    type: 'run',
+    bases: 2
+  },
+  {
+    id: 'triple',
+    title: '3루타',
+    badge: '주루',
+    summary: '타자가 멈추지 않고 3루까지 들어가면 3루타야.',
+    detail: '외야 깊숙한 곳으로 타구가 향했을 때 타자가 3루까지 도달하면 3루타가 기록돼.',
+    type: 'run',
+    bases: 3
+  },
+  {
+    id: 'ground-home-run',
+    title: '그라운드 홈런',
+    badge: '주루',
+    summary: '페어 타구로 타자가 네 베이스를 모두 돌아 홈까지 들어오면 그라운드 홈런이야.',
+    detail: '담장을 넘기지 않아도 수비가 처리하기 전에 타자가 홈까지 돌아오면 그라운드 홈런으로 볼 수 있어.',
+    type: 'run',
+    bases: 4
+  },
+  {
+    id: 'hit',
+    title: '안타',
+    badge: '타구',
+    summary: '타자가 친 공이 페어 지역에 떨어져 수비보다 먼저 1루에 나가면 안타야.',
+    detail: '공이 내야나 외야의 페어 구역으로 향하면 안타가 될 수 있어. 아래 점은 페어 지역으로 향하는 타구를 보여줘.',
+    type: 'ball',
+    x: 63,
+    y: 40
+  },
+  {
+    id: 'foul',
+    title: '파울',
+    badge: '타구',
+    summary: '타구가 1루선과 3루선 바깥쪽으로 나가면 파울이야.',
+    detail: '파울은 페어 라인 바깥쪽으로 타구가 벗어난 경우야. 아래 점은 왼쪽 라인 바깥으로 빠지는 장면을 보여줘.',
+    type: 'ball',
+    x: 14,
+    y: 50
+  },
+  {
+    id: 'home-run',
+    title: '홈런',
+    badge: '타구',
+    summary: '타구가 페어 지역에서 담장을 넘기면 홈런이야.',
+    detail: '공이 외야 깊숙한 곳을 넘어가면 타자와 주자 모두 득점할 수 있어. 아래 점은 중앙 담장 쪽으로 날아가는 타구를 보여줘.',
+    type: 'ball',
+    x: 50,
+    y: 10
+  },
+  {
+    id: 'ground-ball',
+    title: '내야땅볼',
+    badge: '타구',
+    summary: '타구가 내야 땅으로 굴러가며 처리되는 타구를 내야땅볼이라고 해.',
+    detail: '타구가 멀리 뜨지 않고 내야 쪽 바닥으로 향할 때 이런 장면이 자주 나와. 아래 점은 3루-유격수 사이로 굴러가는 장면이야.',
+    type: 'ball',
+    x: 28,
+    y: 62
+  }
+];
 
 const STORAGE_KEYS = {
   team: 'dugout-team',
@@ -20,7 +99,8 @@ const STORAGE_KEYS = {
 
 const state = {
   selectedTeam: localStorage.getItem(STORAGE_KEYS.team) || '',
-  nickname: localStorage.getItem(STORAGE_KEYS.nickname) || ''
+  nickname: localStorage.getItem(STORAGE_KEYS.nickname) || '',
+  ruleId: RULES[0].id
 };
 
 const els = {
@@ -29,15 +109,27 @@ const els = {
   selectedTeamPreview: document.getElementById('selectedTeamPreview'),
   teamGrid: document.getElementById('teamGrid'),
   bottomNav: document.getElementById('bottomNav'),
-  hubNickname: document.getElementById('hubNickname'),
-  hubNicknameInline: document.getElementById('hubNicknameInline'),
-  hubTeamLabel: document.getElementById('hubTeamLabel'),
+  homeNickname: document.getElementById('homeNickname'),
+  homeTeamLabel: document.getElementById('homeTeamLabel'),
   summaryTeamLabel: document.getElementById('summaryTeamLabel'),
-  rankTeamLabel: document.getElementById('rankTeamLabel'),
-  rankHighlightName: document.getElementById('rankHighlightName'),
   mypageNickname: document.getElementById('mypageNickname'),
   previewBox: document.getElementById('previewBox'),
-  notesList: document.getElementById('notesList')
+  notesList: document.getElementById('notesList'),
+  rankMeta: document.getElementById('rankMeta'),
+  rankLoading: document.getElementById('rankLoading'),
+  rankError: document.getElementById('rankError'),
+  standingsTable: document.getElementById('standingsTable'),
+  standingsRows: document.getElementById('standingsRows'),
+  ruleTabs: document.getElementById('ruleTabs'),
+  ruleTitle: document.getElementById('ruleTitle'),
+  ruleBadge: document.getElementById('ruleBadge'),
+  ruleSummary: document.getElementById('ruleSummary'),
+  ruleDetail: document.getElementById('ruleDetail'),
+  runnerDot: document.getElementById('runnerDot'),
+  ballDot: document.getElementById('ballDot'),
+  ballTrail: document.getElementById('ballTrail'),
+  landingDot: document.getElementById('landingDot'),
+  fieldBoard: document.getElementById('fieldBoard')
 };
 
 function hexToRgba(hex, alpha) {
@@ -52,15 +144,17 @@ function hexToRgba(hex, alpha) {
 function updateBottomNav(activePage) {
   const shouldHide = activePage === 'onboarding';
   els.bottomNav.classList.toggle('hidden', shouldHide);
-  document.querySelectorAll('.nav-item').forEach(btn => {
+  document.querySelectorAll('.nav-item').forEach((btn) => {
     btn.classList.toggle('active', btn.dataset.nav === activePage);
   });
 }
 
 function showPage(id) {
-  document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+  document.querySelectorAll('.page').forEach((page) => page.classList.remove('active'));
   document.getElementById(`page-${id}`).classList.add('active');
   updateBottomNav(id);
+  if (id === 'rank') loadStandings();
+  if (id === 'mypage') renderNotes();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -99,7 +193,7 @@ function selectTeam(teamKey) {
   localStorage.setItem(STORAGE_KEYS.team, teamKey);
   applyTeamTheme();
   renderTeamGrid();
-  maybeAdvanceToHub();
+  maybeAdvanceToHome();
 }
 
 function applyTeamTheme() {
@@ -108,7 +202,7 @@ function applyTeamTheme() {
   document.documentElement.style.setProperty('--accent-strong', meta.strong);
   document.documentElement.style.setProperty('--accent-soft', hexToRgba(meta.color, 0.14));
 
-  ['hubTeamLogo', 'diaryTeamLogo', 'summaryTeamLogo', 'rankTeamLogo', 'mypageTeamLogo'].forEach(id => {
+  ['homeTeamLogo', 'diaryTeamLogo', 'summaryTeamLogo', 'rankTeamLogo', 'mypageTeamLogo'].forEach((id) => {
     const el = document.getElementById(id);
     if (el) el.src = meta.logo;
   });
@@ -119,22 +213,19 @@ function applyTeamTheme() {
   }
 
   const nickname = state.nickname || '나';
-  els.hubNickname.textContent = nickname;
-  els.hubNicknameInline.textContent = nickname;
+  els.homeNickname.textContent = nickname;
   els.mypageNickname.textContent = nickname;
-  els.hubTeamLabel.textContent = meta.label;
+  els.homeTeamLabel.textContent = meta.label;
   els.summaryTeamLabel.textContent = meta.label;
-  els.rankTeamLabel.textContent = meta.label;
-  els.rankHighlightName.textContent = meta.label;
 }
 
-function maybeAdvanceToHub() {
+function maybeAdvanceToHome() {
   const nickname = els.nicknameInput.value.trim();
   if (!nickname || !state.selectedTeam) return;
   state.nickname = nickname;
   localStorage.setItem(STORAGE_KEYS.nickname, nickname);
   applyTeamTheme();
-  showPage('hub');
+  showPage('home');
 }
 
 function getActiveWriteMode() {
@@ -180,7 +271,7 @@ function softenText(text) {
 }
 
 function resetDiary() {
-  ['f_summary', 'f_emotion', 'f_good', 'f_bad', 'f_next', 'freeText'].forEach(id => {
+  ['f_summary', 'f_emotion', 'f_good', 'f_bad', 'f_next', 'freeText'].forEach((id) => {
     const el = document.getElementById(id);
     if (!el) return;
     if (el.tagName === 'SELECT') el.selectedIndex = 0;
@@ -218,7 +309,7 @@ function renderNotes() {
     return;
   }
   els.notesList.className = 'notes-list';
-  els.notesList.innerHTML = notes.map(note => `
+  els.notesList.innerHTML = notes.map((note) => `
     <article class="note-card">
       <div class="note-head">
         <div>
@@ -231,42 +322,155 @@ function renderNotes() {
     </article>
   `).join('');
 
-  document.querySelectorAll('.note-delete').forEach(btn => {
+  document.querySelectorAll('.note-delete').forEach((btn) => {
     btn.addEventListener('click', () => {
-      const filtered = getNotes().filter(note => String(note.id) !== btn.dataset.id);
+      const filtered = getNotes().filter((note) => String(note.id) !== btn.dataset.id);
       setNotes(filtered);
       renderNotes();
     });
   });
 }
 
+function renderStandingsRows(rows) {
+  const myTeam = TEAM_META[state.selectedTeam]?.kbo;
+  els.standingsRows.innerHTML = rows.map((row) => {
+    const isMine = row.team === myTeam;
+    return `
+      <div class="rank-row${isMine ? ' mine' : ''}">
+        <span>${row.rank}</span>
+        <span>${row.team}</span>
+        <span>${row.win}</span>
+        <span>${row.lose}</span>
+        <span>${row.draw ?? '-'}</span>
+        <span>${row.pct}</span>
+        <span>${row.gb}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+async function loadStandings() {
+  els.rankLoading.classList.remove('hidden');
+  els.rankError.classList.add('hidden');
+  els.standingsTable.classList.add('hidden');
+  els.rankMeta.textContent = '공식 순위표를 불러오는 중이야.';
+
+  try {
+    const response = await fetch('/api/kbo-standings', { cache: 'no-store' });
+    if (!response.ok) throw new Error('순위표 응답 실패');
+    const data = await response.json();
+    if (!Array.isArray(data.rows) || !data.rows.length) throw new Error('순위표 데이터 없음');
+
+    renderStandingsRows(data.rows);
+    els.rankMeta.textContent = `${data.date || ''} ${data.subtitle || '공식 KBO 일자별 팀 순위'}`.trim();
+    els.rankLoading.classList.add('hidden');
+    els.standingsTable.classList.remove('hidden');
+  } catch (error) {
+    console.error(error);
+    els.rankLoading.classList.add('hidden');
+    els.rankError.classList.remove('hidden');
+    els.rankMeta.textContent = '순위표 연동에 실패했어. api 폴더가 같이 배포됐는지 확인해줘.';
+  }
+}
+
+function renderRuleTabs() {
+  els.ruleTabs.innerHTML = RULES.map((rule) => `
+    <button class="rule-tab${state.ruleId === rule.id ? ' active' : ''}" data-rule="${rule.id}" type="button">${rule.title}</button>
+  `).join('');
+
+  els.ruleTabs.querySelectorAll('.rule-tab').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      state.ruleId = btn.dataset.rule;
+      renderRuleTabs();
+      renderRuleStage();
+    });
+  });
+}
+
+function restartAnimation(el, cls) {
+  el.classList.remove(cls);
+  void el.offsetWidth;
+  el.classList.add(cls);
+}
+
+function resetField() {
+  [els.runnerDot, els.ballDot, els.ballTrail, els.landingDot].forEach((el) => {
+    el.classList.add('hidden');
+    el.classList.remove('animate-run', 'animate-ball');
+    el.style.setProperty('--x', '50%');
+    el.style.setProperty('--y', '76%');
+    el.style.setProperty('--trail-x', '0px');
+    el.style.setProperty('--trail-y', '0px');
+  });
+}
+
+function renderRuleStage() {
+  const rule = RULES.find((item) => item.id === state.ruleId) || RULES[0];
+  els.ruleTitle.textContent = rule.title;
+  els.ruleBadge.textContent = rule.badge;
+  els.ruleSummary.textContent = rule.summary;
+  els.ruleDetail.textContent = rule.detail;
+  resetField();
+
+  if (rule.type === 'ball') {
+    els.ballDot.classList.remove('hidden');
+    els.ballTrail.classList.remove('hidden');
+    els.landingDot.classList.remove('hidden');
+    els.ballDot.style.setProperty('--x', `${rule.x}%`);
+    els.ballDot.style.setProperty('--y', `${rule.y}%`);
+    els.landingDot.style.setProperty('--x', `${rule.x}%`);
+    els.landingDot.style.setProperty('--y', `${rule.y}%`);
+    const fieldRect = els.fieldBoard.getBoundingClientRect();
+    const startX = fieldRect.width * 0.5;
+    const startY = fieldRect.height * 0.76;
+    const endX = fieldRect.width * (rule.x / 100);
+    const endY = fieldRect.height * (rule.y / 100);
+    const dx = endX - startX;
+    const dy = endY - startY;
+    const distance = Math.sqrt((dx * dx) + (dy * dy));
+    const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+    els.ballTrail.style.width = `${distance}px`;
+    els.ballTrail.style.transform = `translate(0, 0) rotate(${angle}deg)`;
+    restartAnimation(els.ballDot, 'animate-ball');
+    restartAnimation(els.ballTrail, 'animate-ball');
+  }
+
+  if (rule.type === 'run') {
+    els.runnerDot.classList.remove('hidden');
+    const targets = {
+      1: { x: '72%', y: '58%' },
+      2: { x: '50%', y: '34%' },
+      3: { x: '28%', y: '58%' },
+      4: { x: '50%', y: '76%' }
+    };
+    els.runnerDot.style.setProperty('--x', targets[rule.bases].x);
+    els.runnerDot.style.setProperty('--y', targets[rule.bases].y);
+    restartAnimation(els.runnerDot, 'animate-run');
+  }
+}
+
 function bindEvents() {
-  els.nicknameInput.addEventListener('input', e => {
+  els.nicknameInput.addEventListener('input', (e) => {
     state.nickname = e.target.value.trim();
     localStorage.setItem(STORAGE_KEYS.nickname, state.nickname);
     applyTeamTheme();
   });
-  els.nicknameInput.addEventListener('change', maybeAdvanceToHub);
+  els.nicknameInput.addEventListener('change', maybeAdvanceToHome);
 
+  document.getElementById('changeTeamBtn').addEventListener('click', () => showPage('onboarding'));
   document.getElementById('goDiary').addEventListener('click', () => showPage('diary'));
   document.getElementById('goRank').addEventListener('click', () => showPage('rank'));
   document.getElementById('goRules').addEventListener('click', () => showPage('rules'));
-  document.getElementById('goMyPage').addEventListener('click', () => {
-    renderNotes();
-    showPage('mypage');
+  document.getElementById('goMyPage').addEventListener('click', () => showPage('mypage'));
+  document.getElementById('reloadStandings').addEventListener('click', loadStandings);
+
+  document.querySelectorAll('[data-nav]').forEach((btn) => {
+    btn.addEventListener('click', () => showPage(btn.dataset.nav));
   });
 
-  document.querySelectorAll('[data-nav]').forEach(btn => {
+  document.querySelectorAll('.seg-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
-      const page = btn.dataset.nav;
-      if (page === 'mypage') renderNotes();
-      showPage(page);
-    });
-  });
-
-  document.querySelectorAll('.seg-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.seg-btn').forEach(item => item.classList.remove('active'));
+      document.querySelectorAll('.seg-btn').forEach((item) => item.classList.remove('active'));
       btn.classList.add('active');
       const isTemplate = btn.dataset.mode === 'template';
       document.getElementById('templateForm').classList.toggle('hidden', !isTemplate);
@@ -296,10 +500,13 @@ function bindEvents() {
     els.floatingModeToggle.textContent = isDark ? '☀️' : '🌙';
     localStorage.setItem(STORAGE_KEYS.dark, isDark ? '1' : '0');
   });
+
+  window.addEventListener('resize', renderRuleStage);
 }
 
 function init() {
   renderTeamGrid();
+  renderRuleTabs();
   bindEvents();
   els.nicknameInput.value = state.nickname;
 
@@ -311,9 +518,10 @@ function init() {
   if (!state.selectedTeam) state.selectedTeam = 'LOTTE';
   applyTeamTheme();
   renderNotes();
+  renderRuleStage();
 
   if (localStorage.getItem(STORAGE_KEYS.nickname) && localStorage.getItem(STORAGE_KEYS.team)) {
-    showPage('hub');
+    showPage('home');
   } else {
     showPage('onboarding');
   }
