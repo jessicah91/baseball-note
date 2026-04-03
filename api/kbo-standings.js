@@ -24,7 +24,7 @@ function normalizeText(html) {
 
 function parseStandings(lines) {
   const rows = [];
-  const rowRegex = /^(\d+)\s+(KT|SSG|NC|한화|롯데|삼성|두산|LG|KIA|키움)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+([0-9.]+)\s+([0-9.-]+).*$/;
+  const rowRegex = /^(\d+)\s+(KT|SSG|NC|삼성|LG|한화|롯데|두산|KIA|키움)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+([0-9.]+)\s+([0-9.-]+)(?:\s+.*)?$/;
   for (const line of lines) {
     const match = line.match(rowRegex);
     if (!match) continue;
@@ -42,26 +42,28 @@ function parseStandings(lines) {
   return rows;
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   try {
     const response = await fetch('https://www.koreabaseball.com/Record/TeamRank/TeamRankDaily.aspx', {
       headers: {
-        'User-Agent': 'Mozilla/5.0',
-        'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.8'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0 Safari/537.36',
+        'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.8',
+        'Referer': 'https://www.koreabaseball.com/'
       }
     });
+
     if (!response.ok) {
-      return res.status(502).json({ error: 'KBO 페이지 응답 실패' });
+      return res.status(502).json({ error: 'KBO 페이지 응답 실패', status: response.status });
     }
 
     const html = await response.text();
     const lines = normalizeText(html);
     const date = lines.find((line) => /^20\d{2}\.\d{2}\.\d{2}$/.test(line)) || '';
-    const subtitle = lines.find((line) => /일자별 팀 순위|기준/.test(line)) || '공식 KBO 일자별 팀 순위';
+    const subtitle = lines.find((line) => /기준\)|일자별 팀 순위/.test(line)) || '공식 KBO 일자별 팀 순위';
     const rows = parseStandings(lines);
 
     if (!rows.length) {
-      return res.status(500).json({ error: '순위표 파싱 실패', sample: lines.slice(140, 220) });
+      return res.status(500).json({ error: '순위표 파싱 실패', sample: lines.slice(180, 210) });
     }
 
     res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=600');
@@ -69,4 +71,4 @@ export default async function handler(req, res) {
   } catch (error) {
     return res.status(500).json({ error: '서버 오류', detail: String(error) });
   }
-}
+};

@@ -24,7 +24,7 @@
         </div>
 
         <div class="card inset team-select-box">
-          <div class="section-head compact-bottom">
+          <div class="section-head compact-bottom align-center">
             <div>
               <p class="eyebrow">STEP 2</p>
               <h2>로고로 응원 구단 선택</h2>
@@ -33,8 +33,9 @@
               <img id="selectedTeamPreview" class="team-badge-image hidden" alt="선택 구단 로고" />
             </div>
           </div>
-          <p class="helper top-helper">로고를 누르면 선택되고, 닉네임까지 입력되어 있으면 바로 홈으로 넘어가.</p>
+          <p class="helper top-helper">로고를 한 번 누르면 선택되고, 닉네임이 이미 있으면 바로 홈으로 넘어가.</p>
           <div id="teamGrid" class="logo-team-grid"></div>
+          <p id="onboardingHint" class="helper top-helper hidden">닉네임을 먼저 적어주면 바로 이동할 수 있어.</p>
         </div>
       </div>
     </section>
@@ -57,23 +58,23 @@
           <h3>오늘은 어떤 메뉴부터 볼까?</h3>
           <p class="helper">하단 메뉴에서 바로 이동할 수 있고, 아래 큰 버튼으로도 들어갈 수 있어.</p>
         </div>
-        <button id="changeTeamBtn" class="soft-btn slim">팀 다시 선택</button>
+        <button id="changeTeamBtn" class="soft-btn slim" type="button">팀 다시 선택</button>
       </section>
 
       <section class="hub-menu-grid">
-        <button id="goDiary" class="menu-card primary">
+        <button id="goDiary" class="menu-card primary" type="button">
           <span class="menu-title">덕아웃 노트</span>
           <span class="menu-desc">오늘 경기 한줄 요약부터 자유 기록까지 남겨봐.</span>
         </button>
-        <button id="goRank" class="menu-card">
+        <button id="goRank" class="menu-card" type="button">
           <span class="menu-title">구단 순위</span>
           <span class="menu-desc">공식 KBO 기준 순위를 불러오고 내 팀을 강조해 보여줘.</span>
         </button>
-        <button id="goRules" class="menu-card">
+        <button id="goRules" class="menu-card" type="button">
           <span class="menu-title">경기 룰</span>
-          <span class="menu-desc">안타, 파울, 홈런 같은 룰을 선택해서 애니메이션으로 확인해.</span>
+          <span class="menu-desc">안타, 파울, 홈런, 2루타 등을 선택해서 애니메이션으로 확인해.</span>
         </button>
-        <button id="goMyPage" class="menu-card subtle">
+        <button id="goMyPage" class="menu-card subtle" type="button">
           <span class="menu-title">마이페이지</span>
           <span class="menu-desc">저장한 덕아웃 노트를 한곳에 모아보기.</span>
         </button>
@@ -149,9 +150,9 @@
         </div>
 
         <div class="button-row wrap">
-          <button id="makePreview" class="primary-btn">기록 미리보기</button>
-          <button id="softenBtn" class="soft-btn">순화하기</button>
-          <button id="saveDiary" class="soft-btn">저장하기</button>
+          <button id="makePreview" class="primary-btn" type="button">기록 미리보기</button>
+          <button id="softenBtn" class="soft-btn" type="button">순화하기</button>
+          <button id="saveDiary" class="soft-btn" type="button">저장하기</button>
         </div>
 
         <div class="result-wrap">
@@ -235,6 +236,8 @@
 
           <div class="field-wrap">
             <div class="field" id="fieldBoard">
+              <div class="fair-fan"></div>
+              <div class="infield-dirt"></div>
               <div class="diamond diamond-home"></div>
               <div class="diamond diamond-first"></div>
               <div class="diamond diamond-second"></div>

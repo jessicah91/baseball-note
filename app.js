@@ -1,93 +1,25 @@
 const TEAM_META = {
-  KT: { label: "KT 위즈", color: "#111111", strong: "#000000", logo: "logos/kt.png", kbo: "KT" },
-  SSG: { label: "SSG 랜더스", color: "#CE0E2D", strong: "#96091F", logo: "logos/ssg.png", kbo: "SSG" },
-  NC: { label: "NC 다이노스", color: "#315288", strong: "#223A61", logo: "logos/nc.png", kbo: "NC" },
-  HANWHA: { label: "한화 이글스", color: "#F37321", strong: "#C85A13", logo: "logos/hanwha.png", kbo: "한화" },
-  LOTTE: { label: "롯데 자이언츠", color: "#041E42", strong: "#091F43", logo: "logos/lotte.png", kbo: "롯데" },
-  SAMSUNG: { label: "삼성 라이온즈", color: "#0066B3", strong: "#004C86", logo: "logos/samsung.png", kbo: "삼성" },
-  DOOSAN: { label: "두산 베어스", color: "#131230", strong: "#0B0A1D", logo: "logos/doosan.png", kbo: "두산" },
-  LG: { label: "LG 트윈스", color: "#C30452", strong: "#91033E", logo: "logos/lg.png", kbo: "LG" },
-  KIA: { label: "KIA 타이거즈", color: "#EA0029", strong: "#B90024", logo: "logos/kia.png", kbo: "KIA" },
-  KIWOOM: { label: "키움 히어로즈", color: "#570514", strong: "#3B030E", logo: "logos/kiwoom.png", kbo: "키움" }
+  KT: { label: 'KT 위즈', color: '#111111', strong: '#000000', logo: 'logos/kt.png', kbo: 'KT' },
+  SSG: { label: 'SSG 랜더스', color: '#CE0E2D', strong: '#96091F', logo: 'logos/ssg.png', kbo: 'SSG' },
+  NC: { label: 'NC 다이노스', color: '#315288', strong: '#223A61', logo: 'logos/nc.png', kbo: 'NC' },
+  HANWHA: { label: '한화 이글스', color: '#F37321', strong: '#C85A13', logo: 'logos/hanwha.png', kbo: '한화' },
+  LOTTE: { label: '롯데 자이언츠', color: '#041E42', strong: '#091F43', logo: 'logos/lotte.png', kbo: '롯데' },
+  SAMSUNG: { label: '삼성 라이온즈', color: '#0066B3', strong: '#004C86', logo: 'logos/samsung.png', kbo: '삼성' },
+  DOOSAN: { label: '두산 베어스', color: '#131230', strong: '#0B0A1D', logo: 'logos/doosan.png', kbo: '두산' },
+  LG: { label: 'LG 트윈스', color: '#C30452', strong: '#91033E', logo: 'logos/lg.png', kbo: 'LG' },
+  KIA: { label: 'KIA 타이거즈', color: '#EA0029', strong: '#B90024', logo: 'logos/kia.png', kbo: 'KIA' },
+  KIWOOM: { label: '키움 히어로즈', color: '#570514', strong: '#3B030E', logo: 'logos/kiwoom.png', kbo: '키움' }
 };
 
 const RULES = [
-  {
-    id: 'single',
-    title: '1루타',
-    badge: '주루',
-    summary: '타자가 안전하게 1루까지 진루하면 1루타야.',
-    detail: '타구가 페어 지역에 떨어진 뒤 수비보다 먼저 1루에 도착하면 1루타로 기록돼. 아래 점이 홈에서 1루까지 뛰는 모습을 보여줘.',
-    type: 'run',
-    bases: 1
-  },
-  {
-    id: 'double',
-    title: '2루타',
-    badge: '주루',
-    summary: '타자가 한 번에 2루까지 가면 2루타야.',
-    detail: '장타가 외야 쪽으로 빠지고 수비가 처리하기 전에 타자가 2루까지 안전하게 들어오면 2루타가 돼.',
-    type: 'run',
-    bases: 2
-  },
-  {
-    id: 'triple',
-    title: '3루타',
-    badge: '주루',
-    summary: '타자가 멈추지 않고 3루까지 들어가면 3루타야.',
-    detail: '외야 깊숙한 곳으로 타구가 향했을 때 타자가 3루까지 도달하면 3루타가 기록돼.',
-    type: 'run',
-    bases: 3
-  },
-  {
-    id: 'ground-home-run',
-    title: '그라운드 홈런',
-    badge: '주루',
-    summary: '페어 타구로 타자가 네 베이스를 모두 돌아 홈까지 들어오면 그라운드 홈런이야.',
-    detail: '담장을 넘기지 않아도 수비가 처리하기 전에 타자가 홈까지 돌아오면 그라운드 홈런으로 볼 수 있어.',
-    type: 'run',
-    bases: 4
-  },
-  {
-    id: 'hit',
-    title: '안타',
-    badge: '타구',
-    summary: '타자가 친 공이 페어 지역에 떨어져 수비보다 먼저 1루에 나가면 안타야.',
-    detail: '공이 내야나 외야의 페어 구역으로 향하면 안타가 될 수 있어. 아래 점은 페어 지역으로 향하는 타구를 보여줘.',
-    type: 'ball',
-    x: 63,
-    y: 40
-  },
-  {
-    id: 'foul',
-    title: '파울',
-    badge: '타구',
-    summary: '타구가 1루선과 3루선 바깥쪽으로 나가면 파울이야.',
-    detail: '파울은 페어 라인 바깥쪽으로 타구가 벗어난 경우야. 아래 점은 왼쪽 라인 바깥으로 빠지는 장면을 보여줘.',
-    type: 'ball',
-    x: 14,
-    y: 50
-  },
-  {
-    id: 'home-run',
-    title: '홈런',
-    badge: '타구',
-    summary: '타구가 페어 지역에서 담장을 넘기면 홈런이야.',
-    detail: '공이 외야 깊숙한 곳을 넘어가면 타자와 주자 모두 득점할 수 있어. 아래 점은 중앙 담장 쪽으로 날아가는 타구를 보여줘.',
-    type: 'ball',
-    x: 50,
-    y: 10
-  },
-  {
-    id: 'ground-ball',
-    title: '내야땅볼',
-    badge: '타구',
-    summary: '타구가 내야 땅으로 굴러가며 처리되는 타구를 내야땅볼이라고 해.',
-    detail: '타구가 멀리 뜨지 않고 내야 쪽 바닥으로 향할 때 이런 장면이 자주 나와. 아래 점은 3루-유격수 사이로 굴러가는 장면이야.',
-    type: 'ball',
-    x: 28,
-    y: 62
-  }
+  { id: 'single', title: '1루타', badge: '주루', summary: '타자가 안전하게 1루까지 진루하면 1루타야.', detail: '타자가 홈에서 출발해 1루 베이스를 밟는 움직임을 보여줘.', type: 'run', path: ['home', 'first'] },
+  { id: 'double', title: '2루타', badge: '주루', summary: '타자가 한 번에 2루까지 가면 2루타야.', detail: '홈에서 출발해서 1루를 지나 2루까지 도달하는 흐름을 보여줘.', type: 'run', path: ['home', 'first', 'second'] },
+  { id: 'triple', title: '3루타', badge: '주루', summary: '타자가 멈추지 않고 3루까지 들어가면 3루타야.', detail: '홈 → 1루 → 2루 → 3루를 순서대로 모두 지나가는 주루 장면이야.', type: 'run', path: ['home', 'first', 'second', 'third'] },
+  { id: 'ground-home-run', title: '그라운드 홈런', badge: '주루', summary: '페어 타구로 타자가 네 베이스를 모두 돌아 홈까지 들어오면 그라운드 홈런이야.', detail: '홈에서 출발해 1루, 2루, 3루를 모두 돌고 다시 홈으로 들어오는 주루를 보여줘.', type: 'run', path: ['home', 'first', 'second', 'third', 'home'] },
+  { id: 'hit', title: '안타', badge: '타구', summary: '타자가 친 공이 페어 지역에 떨어져 수비보다 먼저 1루에 나가면 안타야.', detail: '공이 페어 지역의 외야 쪽으로 향하는 장면을 보여줘.', type: 'ball', x: 64, y: 42 },
+  { id: 'foul', title: '파울', badge: '타구', summary: '타구가 1루선과 3루선 바깥쪽으로 나가면 파울이야.', detail: '공이 파울라인 바깥쪽 갈색 지역으로 빠지는 장면이야.', type: 'ball', x: 13, y: 47 },
+  { id: 'home-run', title: '홈런', badge: '타구', summary: '타구가 페어 지역에서 담장을 넘기면 홈런이야.', detail: '공이 중앙 깊숙이 날아가 담장을 넘기는 느낌으로 표현했어.', type: 'ball', x: 50, y: 8 },
+  { id: 'ground-ball', title: '내야땅볼', badge: '타구', summary: '타구가 내야 땅으로 굴러가며 처리되는 타구를 내야땅볼이라고 해.', detail: '공이 3루-유격수 쪽 내야 흙 부분으로 굴러가는 장면이야.', type: 'ball', x: 30, y: 62 }
 ];
 
 const STORAGE_KEYS = {
@@ -97,15 +29,24 @@ const STORAGE_KEYS = {
   notes: 'dugout-notes'
 };
 
+const BASE_POSITIONS = {
+  home: { x: 50, y: 76 },
+  first: { x: 72, y: 58 },
+  second: { x: 50, y: 34 },
+  third: { x: 28, y: 58 }
+};
+
 const state = {
   selectedTeam: localStorage.getItem(STORAGE_KEYS.team) || '',
   nickname: localStorage.getItem(STORAGE_KEYS.nickname) || '',
-  ruleId: RULES[0].id
+  ruleId: RULES[0].id,
+  runnerLoop: null
 };
 
 const els = {
   floatingModeToggle: document.getElementById('floatingModeToggle'),
   nicknameInput: document.getElementById('nicknameInput'),
+  onboardingHint: document.getElementById('onboardingHint'),
   selectedTeamPreview: document.getElementById('selectedTeamPreview'),
   teamGrid: document.getElementById('teamGrid'),
   bottomNav: document.getElementById('bottomNav'),
@@ -155,6 +96,7 @@ function showPage(id) {
   updateBottomNav(id);
   if (id === 'rank') loadStandings();
   if (id === 'mypage') renderNotes();
+  if (id === 'rules') renderRuleStage();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -191,9 +133,13 @@ function renderTeamGrid() {
 function selectTeam(teamKey) {
   state.selectedTeam = teamKey;
   localStorage.setItem(STORAGE_KEYS.team, teamKey);
-  applyTeamTheme();
   renderTeamGrid();
-  maybeAdvanceToHome();
+  applyTeamTheme();
+  const moved = maybeAdvanceToHome();
+  if (!moved) {
+    els.onboardingHint.classList.remove('hidden');
+    els.nicknameInput.focus();
+  }
 }
 
 function applyTeamTheme() {
@@ -221,11 +167,13 @@ function applyTeamTheme() {
 
 function maybeAdvanceToHome() {
   const nickname = els.nicknameInput.value.trim();
-  if (!nickname || !state.selectedTeam) return;
+  if (!nickname || !state.selectedTeam) return false;
   state.nickname = nickname;
   localStorage.setItem(STORAGE_KEYS.nickname, nickname);
+  els.onboardingHint.classList.add('hidden');
   applyTeamTheme();
-  showPage('home');
+  setTimeout(() => showPage('home'), 80);
+  return true;
 }
 
 function getActiveWriteMode() {
@@ -281,20 +229,18 @@ function resetDiary() {
 }
 
 function saveCurrentNote() {
-  const placeholder = '여기에 정리된 기록이 보여.';
-  const text = els.previewBox.textContent.trim() === placeholder ? currentRawText() : els.previewBox.textContent.trim();
+  const text = els.previewBox.textContent.trim() === '여기에 정리된 기록이 보여.' ? currentRawText() : els.previewBox.textContent.trim();
   if (!text) {
-    els.previewBox.textContent = '저장하려면 먼저 기록을 적어줘.';
+    els.previewBox.textContent = '먼저 기록을 적어줘.';
     return;
   }
   const notes = getNotes();
   notes.unshift({
     id: Date.now(),
+    team: state.selectedTeam || 'LOTTE',
     nickname: state.nickname || '나',
-    team: state.selectedTeam,
-    teamLabel: TEAM_META[state.selectedTeam]?.label || '',
-    text,
-    createdAt: new Date().toLocaleString('ko-KR')
+    createdAt: new Date().toLocaleString('ko-KR'),
+    text
   });
   setNotes(notes);
   renderNotes();
@@ -308,13 +254,14 @@ function renderNotes() {
     els.notesList.textContent = '아직 저장한 기록이 없어.';
     return;
   }
+
   els.notesList.className = 'notes-list';
   els.notesList.innerHTML = notes.map((note) => `
     <article class="note-card">
       <div class="note-head">
         <div>
-          <strong>${note.teamLabel || '응원팀'}</strong>
-          <p class="note-meta">${note.createdAt}</p>
+          <strong>${TEAM_META[note.team]?.label || '나의 팀'}</strong>
+          <p class="note-meta">${note.nickname} · ${note.createdAt}</p>
         </div>
         <button class="text-btn danger note-delete" data-id="${note.id}" type="button">삭제</button>
       </div>
@@ -356,9 +303,9 @@ async function loadStandings() {
   els.rankMeta.textContent = '공식 순위표를 불러오는 중이야.';
 
   try {
-    const response = await fetch('/api/kbo-standings', { cache: 'no-store' });
-    if (!response.ok) throw new Error('순위표 응답 실패');
+    const response = await fetch(`/api/kbo-standings?t=${Date.now()}`, { cache: 'no-store' });
     const data = await response.json();
+    if (!response.ok) throw new Error(data.error || '순위표 응답 실패');
     if (!Array.isArray(data.rows) || !data.rows.length) throw new Error('순위표 데이터 없음');
 
     renderStandingsRows(data.rows);
@@ -369,7 +316,7 @@ async function loadStandings() {
     console.error(error);
     els.rankLoading.classList.add('hidden');
     els.rankError.classList.remove('hidden');
-    els.rankMeta.textContent = '순위표 연동에 실패했어. api 폴더가 같이 배포됐는지 확인해줘.';
+    els.rankMeta.textContent = '순위표 연동에 실패했어. api/kbo-standings.js 와 vercel.json 이 같이 배포됐는지 확인해줘.';
   }
 }
 
@@ -394,14 +341,56 @@ function restartAnimation(el, cls) {
 }
 
 function resetField() {
+  if (state.runnerLoop) clearInterval(state.runnerLoop);
+  state.runnerLoop = null;
   [els.runnerDot, els.ballDot, els.ballTrail, els.landingDot].forEach((el) => {
     el.classList.add('hidden');
-    el.classList.remove('animate-run', 'animate-ball');
+    el.classList.remove('animate-ball');
+    el.style.left = '50%';
+    el.style.top = '76%';
     el.style.setProperty('--x', '50%');
     el.style.setProperty('--y', '76%');
-    el.style.setProperty('--trail-x', '0px');
-    el.style.setProperty('--trail-y', '0px');
   });
+}
+
+function animateRunnerPath(pathNames) {
+  const points = pathNames.map((name) => BASE_POSITIONS[name]);
+  let segment = 0;
+  let step = 0;
+  const stepsPerSegment = 45;
+
+  const placeRunner = (x, y) => {
+    els.runnerDot.style.left = `${x}%`;
+    els.runnerDot.style.top = `${y}%`;
+  };
+
+  placeRunner(points[0].x, points[0].y);
+  state.runnerLoop = setInterval(() => {
+    const start = points[segment];
+    const end = points[segment + 1];
+    if (!end) {
+      segment = 0;
+      step = 0;
+      placeRunner(points[0].x, points[0].y);
+      return;
+    }
+    step += 1;
+    const t = step / stepsPerSegment;
+    const x = start.x + ((end.x - start.x) * t);
+    const y = start.y + ((end.y - start.y) * t);
+    placeRunner(x, y);
+    if (step >= stepsPerSegment) {
+      segment += 1;
+      step = 0;
+      if (segment >= points.length - 1) {
+        setTimeout(() => {
+          segment = 0;
+          step = 0;
+          placeRunner(points[0].x, points[0].y);
+        }, 280);
+      }
+    }
+  }, 26);
 }
 
 function renderRuleStage() {
@@ -418,8 +407,8 @@ function renderRuleStage() {
     els.landingDot.classList.remove('hidden');
     els.ballDot.style.setProperty('--x', `${rule.x}%`);
     els.ballDot.style.setProperty('--y', `${rule.y}%`);
-    els.landingDot.style.setProperty('--x', `${rule.x}%`);
-    els.landingDot.style.setProperty('--y', `${rule.y}%`);
+    els.landingDot.style.left = `${rule.x}%`;
+    els.landingDot.style.top = `${rule.y}%`;
     const fieldRect = els.fieldBoard.getBoundingClientRect();
     const startX = fieldRect.width * 0.5;
     const startY = fieldRect.height * 0.76;
@@ -437,15 +426,7 @@ function renderRuleStage() {
 
   if (rule.type === 'run') {
     els.runnerDot.classList.remove('hidden');
-    const targets = {
-      1: { x: '72%', y: '58%' },
-      2: { x: '50%', y: '34%' },
-      3: { x: '28%', y: '58%' },
-      4: { x: '50%', y: '76%' }
-    };
-    els.runnerDot.style.setProperty('--x', targets[rule.bases].x);
-    els.runnerDot.style.setProperty('--y', targets[rule.bases].y);
-    restartAnimation(els.runnerDot, 'animate-run');
+    animateRunnerPath(rule.path);
   }
 }
 
@@ -453,9 +434,13 @@ function bindEvents() {
   els.nicknameInput.addEventListener('input', (e) => {
     state.nickname = e.target.value.trim();
     localStorage.setItem(STORAGE_KEYS.nickname, state.nickname);
+    if (state.nickname) els.onboardingHint.classList.add('hidden');
     applyTeamTheme();
   });
   els.nicknameInput.addEventListener('change', maybeAdvanceToHome);
+  els.nicknameInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') maybeAdvanceToHome();
+  });
 
   document.getElementById('changeTeamBtn').addEventListener('click', () => showPage('onboarding'));
   document.getElementById('goDiary').addEventListener('click', () => showPage('diary'));
@@ -501,7 +486,9 @@ function bindEvents() {
     localStorage.setItem(STORAGE_KEYS.dark, isDark ? '1' : '0');
   });
 
-  window.addEventListener('resize', renderRuleStage);
+  window.addEventListener('resize', () => {
+    if (document.getElementById('page-rules').classList.contains('active')) renderRuleStage();
+  });
 }
 
 function init() {
@@ -518,12 +505,11 @@ function init() {
   if (!state.selectedTeam) state.selectedTeam = 'LOTTE';
   applyTeamTheme();
   renderNotes();
+  updateBottomNav('onboarding');
   renderRuleStage();
 
-  if (localStorage.getItem(STORAGE_KEYS.nickname) && localStorage.getItem(STORAGE_KEYS.team)) {
+  if (state.nickname && localStorage.getItem(STORAGE_KEYS.team)) {
     showPage('home');
-  } else {
-    showPage('onboarding');
   }
 }
 
