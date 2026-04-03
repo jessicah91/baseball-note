@@ -28,6 +28,7 @@ const els = {
   nicknameInput: document.getElementById('nicknameInput'),
   selectedTeamPreview: document.getElementById('selectedTeamPreview'),
   teamGrid: document.getElementById('teamGrid'),
+  bottomNav: document.getElementById('bottomNav'),
   hubNickname: document.getElementById('hubNickname'),
   hubNicknameInline: document.getElementById('hubNicknameInline'),
   hubTeamLabel: document.getElementById('hubTeamLabel'),
@@ -48,9 +49,18 @@ function hexToRgba(hex, alpha) {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
+function updateBottomNav(activePage) {
+  const shouldHide = activePage === 'onboarding';
+  els.bottomNav.classList.toggle('hidden', shouldHide);
+  document.querySelectorAll('.nav-item').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.nav === activePage);
+  });
+}
+
 function showPage(id) {
   document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
   document.getElementById(`page-${id}`).classList.add('active');
+  updateBottomNav(id);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -71,11 +81,13 @@ function renderTeamGrid() {
   Object.entries(TEAM_META).forEach(([key, meta]) => {
     const button = document.createElement('button');
     button.type = 'button';
-    button.className = `team-tile${state.selectedTeam === key ? ' active' : ''}`;
+    button.className = `logo-team-tile${state.selectedTeam === key ? ' active' : ''}`;
     button.dataset.team = key;
     button.innerHTML = `
-      <img src="${meta.logo}" alt="${meta.label} 로고" class="team-tile-logo" />
-      <span class="team-tile-name">${meta.label}</span>
+      <div class="logo-team-mark">
+        <img src="${meta.logo}" alt="${meta.label} 로고" class="logo-team-image" />
+      </div>
+      <span class="logo-team-name">${meta.label}</span>
     `;
     button.addEventListener('click', () => selectTeam(key));
     els.teamGrid.appendChild(button);
@@ -96,8 +108,7 @@ function applyTeamTheme() {
   document.documentElement.style.setProperty('--accent-strong', meta.strong);
   document.documentElement.style.setProperty('--accent-soft', hexToRgba(meta.color, 0.14));
 
-  const logoTargets = ['hubTeamLogo', 'diaryTeamLogo', 'summaryTeamLogo', 'rankTeamLogo', 'mypageTeamLogo'];
-  logoTargets.forEach(id => {
+  ['hubTeamLogo', 'diaryTeamLogo', 'summaryTeamLogo', 'rankTeamLogo', 'mypageTeamLogo'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.src = meta.logo;
   });
@@ -140,7 +151,6 @@ function buildTemplatePreview() {
   const good = value('f_good');
   const bad = value('f_bad');
   const next = value('f_next');
-
   const parts = [];
   if (summary) parts.push(`오늘 경기는 ${summary}.`);
   if (emotion) parts.push(`전체적으로는 ${emotion}이 크게 남았다.`);
@@ -180,15 +190,12 @@ function resetDiary() {
 }
 
 function saveCurrentNote() {
-  const text = els.previewBox.textContent.trim() === '여기에 정리된 기록이 보여.'
-    ? currentRawText()
-    : els.previewBox.textContent.trim();
-
+  const placeholder = '여기에 정리된 기록이 보여.';
+  const text = els.previewBox.textContent.trim() === placeholder ? currentRawText() : els.previewBox.textContent.trim();
   if (!text) {
     els.previewBox.textContent = '저장하려면 먼저 기록을 적어줘.';
     return;
   }
-
   const notes = getNotes();
   notes.unshift({
     id: Date.now(),
@@ -210,7 +217,6 @@ function renderNotes() {
     els.notesList.textContent = '아직 저장한 기록이 없어.';
     return;
   }
-
   els.notesList.className = 'notes-list';
   els.notesList.innerHTML = notes.map(note => `
     <article class="note-card">
@@ -250,10 +256,10 @@ function bindEvents() {
     showPage('mypage');
   });
 
-  document.querySelectorAll('[data-go]').forEach(btn => {
+  document.querySelectorAll('[data-nav]').forEach(btn => {
     btn.addEventListener('click', () => {
-      const page = btn.dataset.go;
-      if (page === 'hub' || page === 'mypage') renderNotes();
+      const page = btn.dataset.nav;
+      if (page === 'mypage') renderNotes();
       showPage(page);
     });
   });
@@ -295,7 +301,6 @@ function bindEvents() {
 function init() {
   renderTeamGrid();
   bindEvents();
-
   els.nicknameInput.value = state.nickname;
 
   if (localStorage.getItem(STORAGE_KEYS.dark) === '1') {
@@ -303,14 +308,14 @@ function init() {
     els.floatingModeToggle.textContent = '☀️';
   }
 
-  if (!state.selectedTeam) {
-    state.selectedTeam = 'LOTTE';
-  }
+  if (!state.selectedTeam) state.selectedTeam = 'LOTTE';
   applyTeamTheme();
   renderNotes();
 
   if (localStorage.getItem(STORAGE_KEYS.nickname) && localStorage.getItem(STORAGE_KEYS.team)) {
     showPage('hub');
+  } else {
+    showPage('onboarding');
   }
 }
 

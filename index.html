@@ -14,42 +14,41 @@
       <div class="card hero-card">
         <p class="eyebrow">BASEBALL DIARY</p>
         <h1>덕아웃 노트</h1>
-        <p class="sub">응원팀을 고르고, 오늘의 경기와 감정을 한곳에 남겨봐.</p>
+        <p class="sub">닉네임을 적고, 실제 구단 로고로 응원팀을 골라 바로 시작해.</p>
 
         <div class="card inset onboarding-box">
-          <div class="section-head stack-start">
+          <div class="section-head stack-start compact-bottom">
             <div>
               <p class="eyebrow">STEP 1</p>
               <h2>닉네임 입력</h2>
             </div>
           </div>
           <label class="label" for="nicknameInput">닉네임</label>
-          <input id="nicknameInput" class="input" placeholder="예) 예현 / 덕아웃러버" maxlength="20" />
-          <p class="helper">닉네임과 응원 구단을 고르면 자동으로 다음 화면으로 넘어가.</p>
+          <input id="nicknameInput" class="input" placeholder="예) 예현 / 직관러 / 홈런기원" maxlength="20" />
         </div>
 
         <div class="card inset team-select-box">
-          <div class="section-head stack-start">
+          <div class="section-head stack-start compact-bottom">
             <div>
               <p class="eyebrow">STEP 2</p>
-              <h2>응원 구단 선택</h2>
+              <h2>로고로 응원 구단 선택</h2>
             </div>
             <div class="team-badge-preview">
               <img id="selectedTeamPreview" class="team-badge-image hidden" alt="선택 구단 로고" />
             </div>
           </div>
-          <div id="teamGrid" class="team-grid"></div>
+          <p class="helper top-helper">원하는 구단 로고를 누르면 바로 다음 화면으로 넘어가.</p>
+          <div id="teamGrid" class="logo-team-grid"></div>
         </div>
       </div>
     </section>
 
     <section id="page-hub" class="page">
       <header class="topbar">
-        <button class="back-btn" data-go="onboarding">←</button>
         <div class="brand-left">
           <div class="team-logo-frame lg"><img id="hubTeamLogo" class="team-logo-image" alt="팀 로고" /></div>
           <div>
-            <p class="eyebrow">MY TEAM HUB</p>
+            <p class="eyebrow">HOME</p>
             <h2><span id="hubNickname">닉네임</span>의 덕아웃</h2>
             <p id="hubTeamLabel" class="sub inline-sub">롯데 자이언츠</p>
           </div>
@@ -59,7 +58,7 @@
       <section class="card hub-intro">
         <div>
           <p class="eyebrow">WELCOME</p>
-          <h3>오늘은 어떤 화면으로 들어갈까?</h3>
+          <h3>무엇부터 볼까?</h3>
           <p class="helper"><span id="hubNicknameInline">닉네임</span>님의 응원팀 컬러와 로고가 모든 페이지에 반영돼.</p>
         </div>
       </section>
@@ -71,22 +70,21 @@
         </button>
         <button id="goRank" class="menu-card">
           <span class="menu-title">구단 순위</span>
-          <span class="menu-desc">내 팀 순위, 승패, 승률을 보는 페이지 자리.</span>
+          <span class="menu-desc">내 팀 순위, 승패, 승률을 확인할 자리.</span>
         </button>
         <button id="goRules" class="menu-card">
           <span class="menu-title">경기 룰</span>
-          <span class="menu-desc">야구를 처음 보더라도 헷갈리지 않게 핵심만 정리.</span>
+          <span class="menu-desc">헷갈리는 야구 기본 룰을 쉽고 빠르게 보기.</span>
         </button>
         <button id="goMyPage" class="menu-card subtle">
           <span class="menu-title">마이페이지</span>
-          <span class="menu-desc">내가 저장한 덕아웃 노트를 모아보는 공간.</span>
+          <span class="menu-desc">저장한 덕아웃 노트를 한곳에 모아보기.</span>
         </button>
       </section>
     </section>
 
     <section id="page-diary" class="page">
       <header class="topbar">
-        <button class="back-btn" data-go="hub">←</button>
         <div class="brand-left">
           <div class="team-logo-frame"><img id="diaryTeamLogo" class="team-logo-image" alt="팀 로고" /></div>
           <div>
@@ -171,7 +169,6 @@
 
     <section id="page-rank" class="page">
       <header class="topbar">
-        <button class="back-btn" data-go="hub">←</button>
         <div class="brand-left">
           <div class="team-logo-frame"><img id="rankTeamLogo" class="team-logo-image" alt="팀 로고" /></div>
           <div>
@@ -189,7 +186,7 @@
           </div>
           <div class="chip">연동 자리</div>
         </div>
-        <p class="helper">여기는 나중에 KBO 공식 순위표를 연결할 자리야. 지금은 페이지 구조와 동선만 먼저 잡아둔 상태야.</p>
+        <p class="helper">여기는 KBO 순위표가 들어갈 자리야. 지금은 페이지 구조를 먼저 깔끔하게 맞춰둔 상태야.</p>
 
         <div class="rank-table">
           <div class="rank-row header">
@@ -198,14 +195,13 @@
           <div class="rank-row highlight">
             <span>--</span><span id="rankHighlightName">선택 팀</span><span>--</span><span>--</span><span>--</span>
           </div>
-          <div class="rank-placeholder">공식 데이터 연동 전까지는 내 팀 행 강조 구조만 보이게 해뒀어.</div>
+          <div class="rank-placeholder">공식 순위표를 연결하기 전까지는 내 팀 행 강조 구조만 보이게 해뒀어.</div>
         </div>
       </section>
     </section>
 
     <section id="page-rules" class="page">
       <header class="topbar">
-        <button class="back-btn" data-go="hub">←</button>
         <div class="brand-left">
           <div class="team-logo-frame neutral">⚾</div>
           <div>
@@ -237,7 +233,6 @@
 
     <section id="page-mypage" class="page">
       <header class="topbar">
-        <button class="back-btn" data-go="hub">←</button>
         <div class="brand-left">
           <div class="team-logo-frame"><img id="mypageTeamLogo" class="team-logo-image" alt="팀 로고" /></div>
           <div>
@@ -259,6 +254,29 @@
       </section>
     </section>
   </div>
+
+  <nav id="bottomNav" class="bottom-nav hidden" aria-label="하단 메뉴">
+    <button class="nav-item" data-nav="hub" type="button">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">홈</span>
+    </button>
+    <button class="nav-item" data-nav="diary" type="button">
+      <span class="nav-icon">📝</span>
+      <span class="nav-label">덕아웃 노트</span>
+    </button>
+    <button class="nav-item" data-nav="rank" type="button">
+      <span class="nav-icon">📊</span>
+      <span class="nav-label">순위</span>
+    </button>
+    <button class="nav-item" data-nav="rules" type="button">
+      <span class="nav-icon">⚾</span>
+      <span class="nav-label">경기 룰</span>
+    </button>
+    <button class="nav-item" data-nav="mypage" type="button">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label">마이페이지</span>
+    </button>
+  </nav>
 
   <script src="app.js"></script>
 </body>
