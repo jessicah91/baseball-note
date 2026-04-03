@@ -7,75 +7,88 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <button id="globalModeToggle" class="floating-mode-btn" aria-label="모드 전환">🌙</button>
+  <button id="floatingModeToggle" class="floating-mode-toggle" aria-label="나이트 모드 전환">🌙</button>
 
-  <div id="app" class="app">
-    <section id="page-home" class="page active">
-      <div class="hero card">
-        <div class="hero-top">
-          <div>
-            <p class="eyebrow">BASEBALL DIARY</p>
-            <h1>덕아웃 노트</h1>
-            <p class="sub">욕만 하고 지나가는 경기 대신, 내 팀의 하루를 기록하는 야구 다이어리.</p>
+  <div class="app">
+    <section id="page-onboarding" class="page active">
+      <div class="card hero-card">
+        <p class="eyebrow">BASEBALL DIARY</p>
+        <h1>덕아웃 노트</h1>
+        <p class="sub">응원팀을 고르고, 오늘의 경기와 감정을 한곳에 남겨봐.</p>
+
+        <div class="card inset onboarding-box">
+          <div class="section-head stack-start">
+            <div>
+              <p class="eyebrow">STEP 1</p>
+              <h2>닉네임 입력</h2>
+            </div>
           </div>
+          <label class="label" for="nicknameInput">닉네임</label>
+          <input id="nicknameInput" class="input" placeholder="예) 예현 / 덕아웃러버" maxlength="20" />
+          <p class="helper">닉네임과 응원 구단을 고르면 자동으로 다음 화면으로 넘어가.</p>
         </div>
 
-        <div class="team-picker card inset">
-          <div class="section-head">
+        <div class="card inset team-select-box">
+          <div class="section-head stack-start">
             <div>
-              <p class="eyebrow">MY TEAM</p>
+              <p class="eyebrow">STEP 2</p>
               <h2>응원 구단 선택</h2>
             </div>
-            <div id="homeTeamLogo" class="team-logo lg">롯</div>
+            <div class="team-badge-preview">
+              <img id="selectedTeamPreview" class="team-badge-image hidden" alt="선택 구단 로고" />
+            </div>
           </div>
-
-          <label class="label" for="nicknameInput">닉네임</label>
-          <input id="nicknameInput" class="input" placeholder="닉네임을 입력해줘" />
-
-          <label class="label" for="homeTeamSelect">구단</label>
-          <select id="homeTeamSelect" class="select"></select>
-          <p class="helper">응원 구단을 선택하면 바로 다음 화면으로 넘어가고, 순위표에서도 내 팀이 강조돼.</p>
+          <div id="teamGrid" class="team-grid"></div>
         </div>
       </div>
     </section>
 
     <section id="page-hub" class="page">
       <header class="topbar">
-        <button class="back-btn" data-go="home">←</button>
+        <button class="back-btn" data-go="onboarding">←</button>
         <div class="brand-left">
-          <div id="hubTeamLogo" class="team-logo">롯</div>
+          <div class="team-logo-frame lg"><img id="hubTeamLogo" class="team-logo-image" alt="팀 로고" /></div>
           <div>
-            <p class="eyebrow">WELCOME</p>
-            <h2><span id="nicknameText">팬</span>님의 덕아웃</h2>
+            <p class="eyebrow">MY TEAM HUB</p>
+            <h2><span id="hubNickname">닉네임</span>의 덕아웃</h2>
+            <p id="hubTeamLabel" class="sub inline-sub">롯데 자이언츠</p>
           </div>
         </div>
       </header>
 
-      <div class="home-actions card hub-card">
+      <section class="card hub-intro">
+        <div>
+          <p class="eyebrow">WELCOME</p>
+          <h3>오늘은 어떤 화면으로 들어갈까?</h3>
+          <p class="helper"><span id="hubNicknameInline">닉네임</span>님의 응원팀 컬러와 로고가 모든 페이지에 반영돼.</p>
+        </div>
+      </section>
+
+      <section class="hub-menu-grid">
         <button id="goDiary" class="menu-card primary">
-          <span class="menu-title">덕아웃 노트 쓰기</span>
-          <span class="menu-desc">템플릿 또는 자유양식으로 오늘 경기를 기록해.</span>
+          <span class="menu-title">덕아웃 노트</span>
+          <span class="menu-desc">오늘 경기 한줄 요약부터 자유 기록까지 남겨봐.</span>
         </button>
-        <button id="goStandings" class="menu-card">
-          <span class="menu-title">KBO 순위표 보기</span>
-          <span class="menu-desc">공식 KBO 일자별 팀 순위를 불러와서 보여줘.</span>
+        <button id="goRank" class="menu-card">
+          <span class="menu-title">구단 순위</span>
+          <span class="menu-desc">내 팀 순위, 승패, 승률을 보는 페이지 자리.</span>
         </button>
         <button id="goRules" class="menu-card">
-          <span class="menu-title">야구 기본 룰</span>
-          <span class="menu-desc">입문자가 보기 쉬운 핵심 룰부터 정리.</span>
+          <span class="menu-title">경기 룰</span>
+          <span class="menu-desc">야구를 처음 보더라도 헷갈리지 않게 핵심만 정리.</span>
         </button>
-        <button id="goMyPage" class="menu-card">
+        <button id="goMyPage" class="menu-card subtle">
           <span class="menu-title">마이페이지</span>
-          <span class="menu-desc">저장한 덕아웃 노트를 한 번에 모아봐.</span>
+          <span class="menu-desc">내가 저장한 덕아웃 노트를 모아보는 공간.</span>
         </button>
-      </div>
+      </section>
     </section>
 
     <section id="page-diary" class="page">
       <header class="topbar">
         <button class="back-btn" data-go="hub">←</button>
         <div class="brand-left">
-          <div id="diaryTeamLogo" class="team-logo">롯</div>
+          <div class="team-logo-frame"><img id="diaryTeamLogo" class="team-logo-image" alt="팀 로고" /></div>
           <div>
             <p class="eyebrow">DUGOUT NOTE</p>
             <h2>오늘의 기록</h2>
@@ -83,19 +96,14 @@
         </div>
       </header>
 
-      <section id="myTeamSummary" class="card myteam-summary">
-        <button id="toggleSummary" class="summary-toggle" type="button">
-          <div class="brand-left">
-            <div id="summaryLogo" class="team-logo sm">롯</div>
-            <div>
-              <p class="eyebrow">MY TEAM</p>
-              <strong id="summaryTeamName">롯데 자이언츠</strong>
-            </div>
+      <section class="card diary-summary-card">
+        <div class="brand-left align-start">
+          <div class="team-logo-frame sm"><img id="summaryTeamLogo" class="team-logo-image" alt="팀 로고" /></div>
+          <div>
+            <p class="eyebrow">MY TEAM</p>
+            <strong id="summaryTeamLabel">롯데 자이언츠</strong>
+            <p class="helper">오늘 경기에서 남기고 싶은 감정과 장면을 정리해봐.</p>
           </div>
-          <span id="summaryChevron">▾</span>
-        </button>
-        <div id="summaryBody" class="summary-body">
-          <p class="helper">선택한 구단의 키 컬러가 전체 화면에 반영돼. 저장한 기록은 마이페이지로 모여.</p>
         </div>
       </section>
 
@@ -105,48 +113,50 @@
             <p class="eyebrow">WRITE MODE</p>
             <h3>기록 방식 선택</h3>
           </div>
-          <div class="segmented" id="writeMode">
+          <div class="segmented">
             <button class="seg-btn active" data-mode="template" type="button">템플릿</button>
             <button class="seg-btn" data-mode="free" type="button">자유양식</button>
           </div>
         </div>
 
-        <div id="templateForm" class="template-form">
+        <div id="templateForm">
           <div class="grid2">
             <div>
               <label class="label">오늘 경기 한줄 요약</label>
-              <input id="f_summary" class="input" placeholder="예) 8회 흐름을 못 잡아서 아쉬웠다" />
+              <input id="f_summary" class="input" placeholder="예) 8회 찬스를 못 살려서 아쉬웠다" />
             </div>
             <div>
               <label class="label">오늘의 감정</label>
               <select id="f_emotion" class="select">
+                <option value="">선택</option>
                 <option>아쉬움</option>
                 <option>답답함</option>
                 <option>재밌었음</option>
                 <option>희망 봄</option>
-                <option>터졌다</option>
+                <option>기분 좋았음</option>
               </select>
             </div>
           </div>
 
           <label class="label">좋았던 장면</label>
-          <textarea id="f_good" class="textarea sm" placeholder="예) 6회 수비 집중력이 좋았다"></textarea>
+          <textarea id="f_good" class="textarea sm" placeholder="예) 수비 집중력이 좋았다"></textarea>
 
           <label class="label">아쉬웠던 장면</label>
           <textarea id="f_bad" class="textarea sm" placeholder="예) 찬스를 살리지 못한 타석이 컸다"></textarea>
 
           <label class="label">다음 경기에서 보고 싶은 점</label>
-          <textarea id="f_next" class="textarea sm" placeholder="예) 불펜 운영과 주루 집중력"></textarea>
+          <textarea id="f_next" class="textarea sm" placeholder="예) 불펜 운영과 작전 수행"></textarea>
         </div>
 
-        <div id="freeForm" class="free-form hidden">
+        <div id="freeForm" class="hidden">
           <label class="label">자유 기록</label>
-          <textarea id="freeText" class="textarea" placeholder="오늘 경기 느낀 점을 편하게 적어봐. 거친 말이 들어가도 아래에서 순화할 수 있어."></textarea>
+          <textarea id="freeText" class="textarea" placeholder="오늘 경기 느낀 점을 편하게 적어봐."></textarea>
         </div>
 
-        <div class="button-row">
+        <div class="button-row wrap">
           <button id="makePreview" class="primary-btn">기록 미리보기</button>
           <button id="softenBtn" class="soft-btn">순화하기</button>
+          <button id="saveDiary" class="soft-btn">저장하기</button>
         </div>
 
         <div class="result-wrap">
@@ -156,53 +166,39 @@
           </div>
           <div id="previewBox" class="result-box">여기에 정리된 기록이 보여.</div>
         </div>
-
-        <div class="button-row">
-          <button id="saveDiary" class="primary-btn">기록 저장</button>
-        </div>
       </section>
     </section>
 
-    <section id="page-standings" class="page">
+    <section id="page-rank" class="page">
       <header class="topbar">
         <button class="back-btn" data-go="hub">←</button>
         <div class="brand-left">
-          <div id="standingsTeamLogo" class="team-logo">롯</div>
+          <div class="team-logo-frame"><img id="rankTeamLogo" class="team-logo-image" alt="팀 로고" /></div>
           <div>
-            <p class="eyebrow">KBO STANDINGS</p>
-            <h2>실시간 순위표</h2>
+            <p class="eyebrow">TEAM RANK</p>
+            <h2>구단 순위</h2>
           </div>
         </div>
       </header>
 
-      <section class="card schedule-card">
-        <div class="section-head standings-head">
+      <section class="card rank-card">
+        <div class="section-head">
           <div>
-            <p class="eyebrow">OFFICIAL KBO</p>
-            <h3 id="standingsHeadline">순위 불러오는 중…</h3>
-            <p id="standingsMeta" class="helper">공식 KBO 일자별 팀 순위 기준</p>
+            <p class="eyebrow">MY TEAM</p>
+            <h3 id="rankTeamLabel">롯데 자이언츠</h3>
           </div>
-          <button id="refreshStandings" class="soft-btn small-btn" type="button">새로고침</button>
+          <div class="chip">연동 자리</div>
         </div>
+        <p class="helper">여기는 나중에 KBO 공식 순위표를 연결할 자리야. 지금은 페이지 구조와 동선만 먼저 잡아둔 상태야.</p>
 
-        <div id="standingsStatus" class="notice-card">순위표를 불러오는 중이야…</div>
-
-        <div id="standingsTableWrap" class="standings-wrap hidden">
-          <table class="standings-table">
-            <thead>
-              <tr>
-                <th>순위</th>
-                <th>팀</th>
-                <th>경기</th>
-                <th>승</th>
-                <th>패</th>
-                <th>무</th>
-                <th>승률</th>
-                <th>게임차</th>
-              </tr>
-            </thead>
-            <tbody id="standingsTableBody"></tbody>
-          </table>
+        <div class="rank-table">
+          <div class="rank-row header">
+            <span>순위</span><span>팀</span><span>승</span><span>패</span><span>승률</span>
+          </div>
+          <div class="rank-row highlight">
+            <span>--</span><span id="rankHighlightName">선택 팀</span><span>--</span><span>--</span><span>--</span>
+          </div>
+          <div class="rank-placeholder">공식 데이터 연동 전까지는 내 팀 행 강조 구조만 보이게 해뒀어.</div>
         </div>
       </section>
     </section>
@@ -211,30 +207,30 @@
       <header class="topbar">
         <button class="back-btn" data-go="hub">←</button>
         <div class="brand-left">
-          <div class="team-logo neutral">⚾</div>
+          <div class="team-logo-frame neutral">⚾</div>
           <div>
             <p class="eyebrow">BASEBALL RULES</p>
-            <h2>야구 기본 룰</h2>
+            <h2>경기 룰</h2>
           </div>
         </div>
       </header>
 
       <section class="card rules-card">
         <div class="rule-item">
-          <h3>페어 / 파울</h3>
-          <p>타구가 1루선과 3루선 안쪽으로 굴러가거나, 그 선 안쪽에 떨어지면 페어볼이야.</p>
-        </div>
-        <div class="rule-item">
           <h3>아웃 카운트</h3>
-          <p>한 이닝 공격에서 아웃 3개가 나오면 공수 교대가 돼.</p>
+          <p>공격 중 아웃이 3개가 되면 공수 교대가 이루어져.</p>
         </div>
         <div class="rule-item">
-          <h3>승리투수 / 패전투수</h3>
-          <p>경기 흐름상 리드를 만든 뒤 자격을 충족한 투수가 승리투수, 결승 실점을 허용한 쪽이 패전투수로 기록돼.</p>
+          <h3>페어 / 파울</h3>
+          <p>1루선과 3루선 안쪽으로 굴러가거나 떨어지면 페어볼이야.</p>
+        </div>
+        <div class="rule-item">
+          <h3>볼넷</h3>
+          <p>투수가 스트라이크 존을 벗어난 공을 4개 던지면 타자는 1루로 나가.</p>
         </div>
         <div class="rule-item">
           <h3>세이브 / 홀드</h3>
-          <p>리드를 지켜 경기를 끝내면 세이브, 리드를 유지한 채 다음 투수에게 넘기면 홀드가 기록될 수 있어.</p>
+          <p>리드를 지키며 경기를 마무리하면 세이브, 중간에서 리드를 유지하면 홀드가 기록될 수 있어.</p>
         </div>
       </section>
     </section>
@@ -243,25 +239,23 @@
       <header class="topbar">
         <button class="back-btn" data-go="hub">←</button>
         <div class="brand-left">
-          <div id="mypageTeamLogo" class="team-logo">롯</div>
+          <div class="team-logo-frame"><img id="mypageTeamLogo" class="team-logo-image" alt="팀 로고" /></div>
           <div>
             <p class="eyebrow">MY PAGE</p>
-            <h2>저장한 덕아웃 노트</h2>
+            <h2>내 기록 모아보기</h2>
           </div>
         </div>
       </header>
 
-      <section class="card rules-card">
-        <div class="section-head tight">
+      <section class="card mypage-card">
+        <div class="section-head">
           <div>
             <p class="eyebrow">ARCHIVE</p>
-            <h3><span id="nicknameArchive">팬</span>님의 기록</h3>
+            <h3><span id="mypageNickname">닉네임</span>님의 덕아웃 노트</h3>
           </div>
-          <button id="clearSavedNotes" class="text-btn" type="button">전체 삭제</button>
+          <button id="clearAllNotes" class="text-btn danger" type="button">전체 삭제</button>
         </div>
-        <div id="savedNotesList" class="saved-notes-list">
-          <div class="notice-card">아직 저장한 기록이 없어.</div>
-        </div>
+        <div id="notesList" class="notes-list empty-state">아직 저장한 기록이 없어.</div>
       </section>
     </section>
   </div>
